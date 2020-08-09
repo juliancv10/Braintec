@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>USUARIOS</title>
+    </h:head>
+    <h:body>
+        <p:growl id="msj" />
+        <h:form id="Nuevo">
+            <p:fieldset legend="Nuevo" toggleable="true">
+                <p:panelGrid columns="2">
+                    <p:commandButton value="Nuevo" oncomplete="PF('valor').show();"/>        
+                </p:panelGrid>
+            </p:fieldset>
+        </h:form>
+        <p:dialog widgetVar="valor" modal="true" showEffect="clip" header="Nuevo Registro" resizable="false">
+            <p:ajax event="close" listener="#{mbeanTusuario.limpiar()}" update=":p"/>
+            <h:form id="p">
+                <p:panelGrid columns="2">
+                    <p:outputLabel value="Numero de Documento"/>
+                    <p:inputText value="#{mbeanTusuario.tusuario.numdocumento}"/>
+                    <p:outputLabel value="Nombres"/>
+                    <p:inputText value="#{mbeanTusuario.tusuario.nombre}"/>
+                    <p:outputLabel value="Apellidos"/>
+                    <p:inputText value="#{mbeanTusuario.tusuario.apellido}"/>
+                    <p:outputLabel value="Telefono"/>
+                    <p:inputText value="#{mbeanTusuario.tusuario.telefono}"/>
+                    <p:outputLabel value="Direccion"/>
+                    <p:inputText value="#{mbeanTusuario.tusuario.direccion}"/>
+                    <p:outputLabel value="Correo"/>
+                    <p:inputText value="#{mbeanTusuario.tusuario.correo}"/>
+                    <p:outputLabel value="Tipo de Documento"/>
+                    <p:selectOneMenu value="#{mbeanTusuario.tdocumento.iddocumento}">
+                        <f:selectItems value="#{mbeanTdocumento.listaTdocumento}" var="d"
+                                       itemValue="#{d.iddocumento}" itemLabel="#{d.tipodocumento}"/>
+                    </p:selectOneMenu>
+                    <p:commandButton value="Guardar" actionListener="#{mbeanTusuario.guardar()}" oncomplete="PF('valor').hide();"
+                                     rendered="#{mbeanTusuario.tusuario.numdocumento ==0}"
+                                     update=":Datos p :msj"/> 
+                    <p:commandButton value="Actualizar" actionListener="#{mbeanTusuario.actualizar()}" oncomplete="PF('valor').hide();"
+                                     rendered="#{mbeanTusuario.tusuario.numdocumento !=0}"
+                                     update=":Datos p :msj"/> 
+
+                </p:panelGrid>
+            </h:form>
+        </p:dialog>
+        <h:form id="Datos" >
+            <p:fieldset>
+                <h:commandLink>
+                        <h:commandButton value="Exportar"/>
+                        <p:dataExporter type="xls" target="Tusuario" fileName="ExcelPersonas"/>  
+                </h:commandLink> 
+            </p:fieldset>
+            <p:fieldset legend=" Datos" toggleable="true">
+                <p:dataTable id="Tusuario" value="#{mbeanTusuario.listaTusuario}" var="u">
+                    <p:column headerText="#Documento" filterBy="#{u.numdocumento}" filterMatchMode="contains">
+                        <h:outputText value="#{u.numdocumento}" />
+                    </p:column>
+                    <p:column headerText="Tipo de Doc" filterBy="#{u.tdocumento.tipodocumento}" filterMatchMode="contains">
+                        <h:outputText value="#{u.tdocumento.tipodocumento}" />
+                    </p:column>
+                    <p:column headerText="Nombres" filterBy="#{u.nombre}" filterMatchMode="contains">
+                        <h:outputText value="#{u.nombre}" />
+                    </p:column>
+                    <p:column headerText="Apellidos" filterBy="#{u.apellido}" filterMatchMode="contains">
+                        <h:outputText value="#{u.apellido}" />
+                    </p:column>
+                    <p:column headerText="Telefono" filterBy="#{u.telefono}" filterMatchMode="contains">
+                        <h:outputText value="#{u.telefono}" />
+                    </p:column>
+                    <p:column headerText="Direccion" filterBy="#{u.direccion}" filterMatchMode="contains">
+                        <h:outputText value="#{u.direccion}" />
+                    </p:column>
+                    <p:column headerText="Correo" filterBy="#{u.correo}" filterMatchMode="contains">
+                        <h:outputText value="#{u.correo}" />
+                    </p:column>
+                    <p:column headerText="Eliminar">
+                        <p:commandButton value="Eliminar" actionListener="#{mbeanTusuario.eliminar(u)}" 
+                                         update=":Datos :msj" />
+                    </p:column>
+                    <p:column headerText="Editar">
+                        <p:commandButton value="Editar" actionListener="#{mbeanTusuario.editardatos(u)}" 
+                                         update=":p" oncomplete="PF('valor').show();"/>
+                    </p:column>
+                </p:dataTable>             
+            </p:fieldset>
+        </h:form>
+    </h:body>
+</html>

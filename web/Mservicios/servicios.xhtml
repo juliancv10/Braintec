@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>TODO supply a title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <body>
+        <h:form>
+            <p:messages id="mensaje" autoUpdate="false" severity="info, fatal" showSummary="false" showDetail="true"/>
+            <p:fieldset legend="Datos Cliente">
+                <h:panelGrid columns="6" id="dcliente">
+                    <p:outputLabel for="txtndoc" value="Numero de documento"/>
+                    <p:inputText id="txtndoc" value="#{rserviciocontroller.tusuario.numdocumento}" required="true"/>
+                    <p:message for="txtndoc"/>
+
+                    <p:outputLabel for="rdbtdoc" value="Tipo de Documento"/>
+                    <p:selectOneMenu id="rdbtdoc" value="#{mbeanTdocumento.tdocumento.iddocumento}">
+                        <f:selectItems value="#{mbeanTdocumento.listaTdocumento}" var="d"
+                                       itemValue="#{d.iddocumento}" itemLabel="#{d.tipodocumento}"/>
+                    </p:selectOneMenu>
+                    <p:message for="rdbtdoc"/>
+
+                    <p:outputLabel for="txtnombres" value="Nombres"/>    
+                    <p:inputText id="txtnombres" value="#{rserviciocontroller.tusuario.nombre}" required="true"/>
+                    <p:message for="txtnombres"/>
+
+                    <p:outputLabel for="txtapellidos" value="Apellidos"/>    
+                    <p:inputText id="txtapellidos" value="#{rserviciocontroller.tusuario.apellido}" required="true"/>
+                    <p:message for="txtapellidos"/>
+
+                    <p:outputLabel for="txttelefono" value="Telefono"/>    
+                    <p:inputText id="txttelefono" value="#{rserviciocontroller.tusuario.telefono}" required="true"/>
+                    <p:message for="txttelefono"/>
+
+                    <p:outputLabel for="txtndireccion" value="Direccion"/>    
+                    <p:inputText id="txtndireccion" value="#{rserviciocontroller.tusuario.direccion}" required="true"/>
+                    <p:message for="txtndireccion"/>
+
+                    <p:outputLabel for="txtcorreo" value="Correo"/>    
+                    <p:inputText id="txtcorreo" value="#{rserviciocontroller.tusuario.correo}" required="true"/>
+                    <p:message for="txtcorreo"/>
+
+                </h:panelGrid>
+            </p:fieldset>
+
+            <p:fieldset legend="Datos Vehiculo">
+                <h:panelGrid columns="6" id="dvehiculo">
+                    <p:outputLabel for="txtplaca" value="Placa Vehiculo"/>
+                    <p:inputText id="txtplaca" value="#{rserviciocontroller.tvehiculo.placavehiculo}" required="true"/>
+                    <p:message for="txtplaca"/>
+
+                    <p:outputLabel for="txtmarca" value="Marca Vehiculo"/>
+                    <p:inputText id="txtmarca" value="#{rserviciocontroller.tvehiculo.marcavehiculo}" required="true"/>
+                    <p:message for="txtmarca"/>
+
+                    <p:outputLabel for="txtmodelo" value="Modelo Vehiculo"/>
+                    <p:inputText id="txtmodelo" value="#{rserviciocontroller.tvehiculo.modelovehiculo}" required="true"/>
+                    <p:message for="txtmodelo"/>
+
+                    <p:outputLabel for="txtcilin" value="Cilindraje Vehiculo"/>
+                    <p:inputText id="txtcilin" value="#{rserviciocontroller.tvehiculo.cilindrajevehiculo}" required="true"/>
+                    <p:message for="txtcilin"/>
+
+                    <p:outputLabel for="txtkm" value="Kilometraje Actual"/>
+                    <p:inputText id="txtkm" value="#{rserviciocontroller.tvehiculo.kilometrajevehiculo}" required="true"/>
+                    <p:message for="txtkm"/>
+
+                    <p:outputLabel for="rdbtrm" value="Transmision Vehiculo"/>
+                    <p:selectOneRadio id="rdbtrm" value="#{rserviciocontroller.tvehiculo.trasmisionvehiculo}" required="true">
+                        <f:selectItem itemValue="M" itemLabel="Manual"/>
+                        <f:selectItem itemValue="A" itemLabel="Automatica"/>
+                    </p:selectOneRadio>
+                    <p:message for="rdbtrm"/>
+
+                    <p:outputLabel for="txtanio" value="Año Vehiculo"/>
+                    <p:inputText id="txtanio" value="#{rserviciocontroller.tvehiculo.aniovehiculo}" required="true"/>
+                    <p:message for="txtanio"/>
+
+                </h:panelGrid>
+            </p:fieldset>
+            
+            <p:fieldset legend="Tipo de Servicio">
+                <h:panelGrid columns="2" id="tiposerv">
+                    <p:outputLabel for="rdbtserv" value="Tipo de Servicio"/>
+                    <p:selectOneMenu id="rdbtserv" value="#{rserviciocontroller.tservicio.idservicio}">
+                        <f:selectItems value="#{mbeanTservicio.listaTservicio}" var="s"
+                                       itemValue="#{s.idservicio}" itemLabel="#{s.nombreservicio}"/>
+                    </p:selectOneMenu>
+                    <p:message for="rdbtserv"/>
+                </h:panelGrid>
+                <p:commandButton icon="ui-icon-check" value="Guardar" update="dcliente, dvehiculo, tiposerv"
+                                 actionListener="#{rserviciocontroller.guardar()}"/>
+            </p:fieldset>
+        </h:form>
+    </body>
+</html>

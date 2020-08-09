@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>VEHICULOS</title>
+    </h:head>
+        <h:body>
+        <p:growl id="msj" />
+        <h:form id="Nuevo">
+            <p:fieldset legend="Nuevo" toggleable="true">
+                <p:panelGrid columns="1">
+                    <p:commandButton value="Nuevo" oncomplete="PF('valor').show();"/>
+                </p:panelGrid>
+            </p:fieldset>
+        </h:form>
+        <p:dialog widgetVar="valor" modal="true" showEffect="clip" header="Nuevo Registro" resizable="false">
+            <h:form id="p">
+                <p:panelGrid columns="2">
+                    <p:outputLabel value="Placa Vehiculo"/>
+                    <p:inputText value="#{tvehiculombean.tvehiculo.placaVehiculo}"/>
+                    <p:outputLabel value="Marca Vehiculo"/>
+                    <p:inputText value="#{tvehiculombean.tvehiculo.marcaVehiculo}"/>
+                    <p:outputLabel value="Modelo Vehiculo"/>
+                    <p:inputText value="#{tvehiculombean.tvehiculo.modeloVehiculo}"/>
+                    <p:outputLabel value="Cilindraje"/>
+                    <p:inputText value="#{tvehiculombean.tvehiculo.cilindrajeVehiculo}"/>
+                    <p:outputLabel value="Kilometraje"/>
+                    <p:inputText value="#{tvehiculombean.tvehiculo.kilometrajeVehiculo}"/>
+                    <p:outputLabel value="Trasmision"/>
+                    <p:inputText value="#{tvehiculombean.tvehiculo.trasmisionVehiculo}" />
+                    <p:outputLabel value="Año Vehiculo" />
+                    <p:calendar value="#{tvehiculombean.tvehiculo.anioVehiculo}">
+                        <f:convertDateTime timeStyle="year" pattern="YYYY"/>
+                    </p:calendar>
+                                
+                    <p:commandButton value="Guardar" actionListener="#{tvehiculombean.guardar()}" oncomplete="PF('valor').hide();"
+                                     update=":Datos p :msj"/>
+                </p:panelGrid>
+            </h:form>
+        </p:dialog>
+        
+        <h:form id="Datos">
+            <p:fieldset legend=" Datos" toggleable="true">
+                <p:dataTable value="#{tvehiculombean.listaTVehiculo}" var="u">
+                    <p:column headerText="Placa Vehiculo">
+                        <h:outputText value="#{u.placaVehiculo}" />
+                    </p:column>
+                    <p:column headerText="Marca">
+                        <h:outputText value="#{u.marcaVehiculo}" />
+                    </p:column>
+                    <p:column headerText="Modelo">
+                        <h:outputText value="#{u.modeloVehiculo}" />
+                    </p:column>
+                    <p:column headerText="Cilindraje">
+                        <h:outputText value="#{u.cilindrajeVehiculo}" />
+                    </p:column>
+                    <p:column headerText="Kilometraje">
+                        <h:outputText value="#{u.kilometrajeVehiculo}" />
+                    </p:column>
+                    <p:column headerText="Trasmision">
+                        <h:outputText value="#{u.trasmisionVehiculo}" />
+                    </p:column>
+                    <p:column headerText="Año Vehiculo">
+                        <h:outputText value="#{u.anioVehiculo}">
+                            <f:convertDateTime pattern="YYYY"/>
+                        </h:outputText>
+                    </p:column>
+                     <p:column headerText="Eliminar">
+                         <p:commandButton value="Eliminar" actionListener="#{mbeanTvehiculo.eliminar(u)}" 
+                                         update=":Datos :msj" />
+                    </p:column>
+                    <p:column headerText="Editar">
+                        <p:commandButton value="Editar" actionListener="#{mbeanTvehiculo.editardatos(u)}" 
+                                         update=":p" oncomplete="PF('valor').show();"/>
+                    </p:column>
+                </p:dataTable>             
+            </p:fieldset>
+        </h:form>
+    </h:body>
+</html>

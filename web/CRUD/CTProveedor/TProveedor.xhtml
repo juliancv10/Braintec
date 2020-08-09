@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>PROVEEDORES</title>
+    </h:head>
+    <h:body>
+        <h:form id="Datos" >
+            <p:fieldset legend=" Datos" toggleable="true">
+                <p:dataTable value="#{tproveedormbean.listaTProveedor}" var="u">
+                    <p:column headerText="Id Proveedor">
+                        <h:outputText value="#{u.idProveedor}" />
+                    </p:column>
+                    <p:column headerText="Razon Social">
+                        <h:outputText value="#{u.rsocialProveedor}" />
+                    </p:column>
+                    <p:column headerText="Persona Contacto">
+                        <h:outputText value="#{u.percontactoProveedor}" />
+                    </p:column>
+                    <p:column headerText="Telefono">
+                        <h:outputText value="#{u.telefonoProveedor}" />
+                    </p:column>
+                    <p:column headerText="Correo">
+                        <h:outputText value="#{u.correoProveedor}" />
+                    </p:column>
+                </p:dataTable>             
+            </p:fieldset>
+        </h:form>
+    </h:body>
+</html>

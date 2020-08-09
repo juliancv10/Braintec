@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>ORDENES DE SERVICIO</title>
+    </h:head>
+    <h:body>
+        <h:form id="Datos" >
+            <p:fieldset legend=" Datos" toggleable="true">
+                <p:dataTable value="#{ordenserviciombean.listaOrdenServicio}" var="u">
+                    <p:column headerText="Caso de Servicio">
+                        <h:outputText value="#{u.idCasoServicio}" />
+                    </p:column>
+                    <p:column headerText="Resumen">
+                        <h:outputText value="#{u.resumenServicio}" />
+                    </p:column>
+                    <p:column headerText="Inicio Servicio">
+                        <h:outputText value="#{u.FIniServicio}">
+                        <f:convertDateTime pattern="YY-MM-dd-hh-mm"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Fin Servicio">
+                        <h:outputText value="#{u.FFinServicio}">
+                        <f:convertDateTime pattern="YY-MM-dd-hh-mm"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Cliente">
+                        <h:outputText value="#{u.idCliente.idCliente}" />
+                    </p:column>
+                    <p:column headerText="Servicio">
+                        <h:outputText value="#{u.idServicio.nombreServicio}" />
+                    </p:column>
+                    <p:column headerText="Estado Servicio">
+                        <h:outputText value="#{u.idEstado.tipoEstado}" />
+                    </p:column>
+                    <p:column headerText="Prioridad">
+                        <h:outputText value="#{u.idPrioridad.tipoPrioridad}" />
+                    </p:column>
+                    <p:column headerText="Orden de Pago">
+                        <h:outputText value="#{u.idOrdenpag.idOrdenpag}" />
+                    </p:column>
+                </p:dataTable>             
+            </p:fieldset>
+        </h:form>
+    </h:body>
+</html>

@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>EMPLEADOS</title>
+    </h:head>
+    <h:body>
+        <h:form id="Datos" >
+            <p:fieldset legend=" Datos" toggleable="true">
+                <p:dataTable value="#{templeadombean.listaTEmpleado}" var="u">
+                    <p:column headerText="Id Empleado">
+                        <h:outputText value="#{u.idEmpleado}" />
+                    </p:column>
+                    <p:column headerText="Cargo Empleado">
+                        <h:outputText value="#{u.cargoEmpleado}" />
+                    </p:column>
+                    <p:column headerText="Fecha Contrato">
+                        <h:outputText value="#{u.fechaContrato}">
+                            <f:convertDateTime pattern="YYYY-MM-dd"/>
+                        </h:outputText>    
+                    </p:column>
+                    <p:column headerText="Usuario">
+                        <h:outputText value="#{u.usuarioEmpleado}" />
+                    </p:column>
+                    <p:column headerText="Contraseña">
+                        <h:outputText value="#{u.contrasenaEmpleado}" />
+                    </p:column>
+                    <p:column headerText="Fecha de Creacion">
+                        <h:outputText value="#{u.FCreacion}">
+                            <f:convertDateTime pattern="YYYY-MM-dd"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Ultimo Acceso">
+                        <h:outputText value="#{u.FUltimoAcceso}">
+                            <f:convertDateTime pattern="YYYY-MM-dd"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Fecha Estado">
+                        <h:outputText value="#{u.FCambioEstado}">
+                            <f:convertDateTime pattern="YYYY-MM-dd"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Numero de Documento">
+                        <h:outputText value="#{u.numDocumento.numDocumento}" />
+                    </p:column>
+                    <p:column headerText="Estado Usuario">
+                        <h:outputText value="#{u.idEstadousu.estadoUsuario}" />
+                    </p:column>
+                    <p:column headerText="Rol Empleado">
+                        <h:outputText value="#{u.idRoles.tipoRol}" />
+                    </p:column>
+                </p:dataTable>             
+            </p:fieldset>
+        </h:form>
+    </h:body>
+</html>
