@@ -1,0 +1,30 @@
+	
+body{
+   
+    background-image:url("#{resource['img/Braintec2.png']}");
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-left:  auto;
+    margin-right: auto;
+    background-attachment: fixed;
+    font-family: 'Marvel', sans-serif;
+    
+}
+
+#principal{  
+  width: 80%; 
+  margin: 5% auto; 
+  
+}
+
+#fmr{
+  width: 80%; 
+  margin: 20% auto;
+  opacity: 90%;
+  
+ 
+}
+
+#fls{
+    color: #fff;
+}

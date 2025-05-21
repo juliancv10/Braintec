@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="BraintecPro">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/BraintecPro/activation.jar!/" />
+      <root url="jar://$PROJECT_DIR$/BraintecPro/commons-beanutils-1.8.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/BraintecPro/commons-digester-2.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/BraintecPro/commons-collections-3.2.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

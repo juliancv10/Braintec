@@ -1,0 +1,216 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <h:body>
+        <p:growl id="msj" />
+        <h:form style="font-family:'Marvel', sans-serif;">
+            <ui:composition template="../WEB-INF/templates/plantilla.xhtml" >
+                <ui:define name="content" >
+                    <div>
+                        <h2 style="text-align: center">Ordenes de Servicio</h2>
+                    </div>
+                    <p:growl id="msj" />
+
+                    <h:form id="nuevo">
+                        <div style="padding-bottom: 10px;">
+                            <p:commandButton value="Registrar Nueva Orden" oncomplete="PF('valor').show();"
+                                             style="background-color: deepskyblue; font-family:'Marvel', sans-serif; font-size: 1.4em;"/> 
+                        </div>
+                    </h:form >
+
+                    <!--DIALOGO PARA CREAR CASOS DE SERVICIO-->
+
+                    <p:dialog widgetVar="valor" modal="true" showEffect="clip" header="Formulario de Registro" resizable="false" style="font-family:'Marvel', sans-serif; width:500px; font-size: 20px;">
+                        <p:ajax event="close" listener="#{mbeanOrdenserv.limpiar()}" update=":p"/>
+                        <h:form id="p">
+                            <p:panelGrid columns="2" style="font-family:'Marvel', sans-serif; width: 500px ;">
+
+                                <p:outputLabel value="Seleccione Vehículo" style="font-family:'Marvel', sans-serif;"/>
+                                <p:selectOneMenu value="#{mbeanOrdenserv.tvehiculo.placavehiculo}" style="font-family:'Marvel', sans-serif;" filter="true" filterMatchMode="contains">
+
+                                    <f:selectItems value="#{mbeanTvehiculo.listaTvehiculo}" var="v" 
+                                                   itemValue="#{v.placavehiculo}" itemLabel="#{v.placavehiculo} #{v.tusuario.nombre} #{v.tusuario.apellido}" />
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="Prioridad" style="font-family:'Marvel', sans-serif;"/>
+                                <p:selectOneMenu id="rdbtrm" value="#{mbeanOrdenserv.ordenservicio.prioridad}" required="true" style="font-family:'Marvel', sans-serif;">
+                                    <f:selectItem itemValue="Baja" itemLabel="Baja"/>
+                                    <f:selectItem itemValue="Media" itemLabel="Media"/>
+                                    <f:selectItem itemValue="Alta" itemLabel="Alta"/>
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="Servicio a Realizar" style="font-family:'Marvel', sans-serif;"/>
+                                <p:selectOneMenu value="#{mbeanOrdenserv.tproserv.idps}" style="font-family:'Marvel', sans-serif;" filter="true" filterMatchMode="contains" >
+                                    <f:selectItems value="#{mbeanTproserv.listaServicio}" var="s" 
+                                                   itemValue="#{s.idps}" itemLabel="#{s.nombre}" />
+                                </p:selectOneMenu>
+
+
+                                <p:commandButton value="Guardar" actionListener="#{mbeanOrdenserv.guardar()}" oncomplete="PF('valor').hide();"
+                                                 rendered="#{mbeanOrdenserv.tvehiculo.placavehiculo == null}"
+                                                 update=":Datos p :msj" style="font-family:'Marvel', sans-serif; background-color: deepskyblue;"/> 
+
+
+
+                            </p:panelGrid>
+                        </h:form>
+                    </p:dialog>
+
+                    <!--DIALOGO PARA EDITAR CASOS DE SERVICIO-->
+
+                    <p:dialog widgetVar="editvalor" modal="true" showEffect="clip" header="Actualizar Datos" resizable="false" style="font-family:'Marvel', sans-serif; width:500px; font-size: 20px;">
+                        <p:ajax event="close" listener="#{mbeanOrdenserv.limpiar()}" update=":c"/>
+
+                        <h:form id="c">
+                            <p:panelGrid columns="2" style="font-family:'Marvel', sans-serif; width: 500px ;">
+
+                                <p:outputLabel value="Placa Vehículo" style="font-family:'Marvel', sans-serif;"/>
+                                <p:outputLabel value="#{mbeanOrdenserv.tvehiculo.placavehiculo}" style="font-family:'Marvel', sans-serif;" />
+
+                                <p:outputLabel value="Prioridad" style="font-family:'Marvel', sans-serif;"/>
+                                <p:selectOneMenu id="rdbtrm" value="#{mbeanOrdenserv.ordenservicio.prioridad}" required="true" style="font-family:'Marvel', sans-serif;">
+                                    <f:selectItem itemValue="Baja" itemLabel="Baja"/>
+                                    <f:selectItem itemValue="Media" itemLabel="Media"/>
+                                    <f:selectItem itemValue="Alta" itemLabel="Alta"/>
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="Servicio a Realizar" style="font-family:'Marvel', sans-serif;"/>
+                                <p:selectOneMenu value="#{mbeanOrdenserv.tproserv.idps}" style="font-family:'Marvel', sans-serif;" filter="true" filterMatchMode="contains" >
+                                    <f:selectItems value="#{mbeanTproserv.listaServicio}" var="s" 
+                                                   itemValue="#{s.idps}" itemLabel="#{s.nombre}" />
+                                </p:selectOneMenu>
+
+
+                                <p:commandButton value="Actualizar" actionListener="#{mbeanOrdenserv.actualizar()}" oncomplete="PF('editvalor').hide();"
+                                                 rendered="#{mbeanOrdenserv.tvehiculo.placavehiculo != null}"
+                                                 update=":Datos c :msj" style="font-family:'Marvel', sans-serif; background-color: deepskyblue;" /> 
+
+                            </p:panelGrid>
+                        </h:form>
+                    </p:dialog>
+
+                    <!--DIALOGO PARA FINALIZAR CASOS DE SERVICIO-->
+
+                    <p:dialog widgetVar="fincaso" modal="true" showEffect="clip" header="Cierre de Casos" resizable="false" style="font-family:'Marvel', sans-serif; width:500px; font-size: 20px;">
+                        <p:ajax event="close" listener="#{mbeanOrdenserv.limpiar()}" update=":t"/>
+                        <h:form id="t">
+                            <p:panelGrid columns="2" style="font-family:'Marvel', sans-serif; width: 500px ;">
+
+                                <p:outputLabel value="Placa Vehículo" style="font-family:'Marvel', sans-serif;"/>
+                                <p:outputLabel value="#{mbeanOrdenserv.tvehiculo.placavehiculo}" style="font-family:'Marvel', sans-serif;" />
+
+                                <p:outputLabel value="Prioridad" style="font-family:'Marvel', sans-serif;"/>
+                                <p:outputLabel value="#{mbeanOrdenserv.ordenservicio.prioridad}" style="font-family:'Marvel', sans-serif;" />
+
+                                <p:outputLabel value="Fecha De Inicio" style="font-family:'Marvel', sans-serif;"/>
+                                <p:outputLabel value="#{mbeanOrdenserv.ordenservicio.fechaserv}" style="font-family:'Marvel', sans-serif;" >
+                                    <f:convertDateTime pattern="dd/MM/yyyy hh:mm a" />
+                                </p:outputLabel>
+
+                                <p:outputLabel value="Servicio Solicitado" style="font-family:'Marvel', sans-serif;"/>
+                                <p:outputLabel value="#{mbeanOrdenserv.ordenservicio.tproserv.nombre}" style="font-family:'Marvel', sans-serif;" />
+
+                                <p:outputLabel value="Observaciones del Cierre" style="font-family:'Marvel', sans-serif;"/>
+                                <p:inputText id="txtobs" value="#{mbeanOrdenserv.ordenservicio.observaciones}" 
+                                             style="font-family:'Marvel', sans-serif;" required="true" 
+                                             label="Observaciones Requeridas" >
+                                <h:messages for="txtobs" />
+                                </p:inputText>
+                                
+
+                                <p:commandButton value="Cerrar Caso" actionListener="#{mbeanOrdenserv.cierrecaso()}" oncomplete="PF('fincaso').hide();"
+                                                 rendered="#{mbeanOrdenserv.tvehiculo.placavehiculo != null}"
+                                                 update=":Datos t :msj" style="font-family:'Marvel', sans-serif; background-color: deepskyblue;" >
+                                    <p:confirm header="AVISO!!!" message="Esta Seguro de Cerrar este caso?, esta Acción no tiene retroceso" 
+                                               icon="pi pi-exclamation-triangle" />
+
+                                </p:commandButton> 
+
+                                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" style="font-family:'Marvel', sans-serif;">
+                                    <p:commandButton value="SI" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" style="background-color: deepskyblue; font-family:'Marvel', sans-serif;"/>
+                                    <p:commandButton value="NO" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" style="background-color: deepskyblue; font-family:'Marvel', sans-serif;"/>
+                                </p:confirmDialog>
+
+                            </p:panelGrid>
+                        </h:form>
+                    </p:dialog>
+
+                    <style type="text/css">
+                        .ui-paginator a {
+                            margin-right: 5px;
+                        }
+                    </style>
+                    <h:form id="Datos">
+                        <p:dataTable id="Tordenserv" value="#{mbeanOrdenserv.listaOrdenServicio}" var="o" 
+                                     paginator="true" paginatorPosition="bottom" rows="8" 
+                                     widgetVar="tablaordserv" emptyMessage="No se encuentra el dato consultado"
+                                     style="margin-bottom:20px; font-family:'Marvel', sans-serif; text-align: center;">
+
+                            <f:facet name="header">
+                                <p:outputPanel style="height: 25px" >
+                                    <h:outputText value="Ordenes Registradas" style="font-family:'Marvel', sans-serif;" />
+
+                                </p:outputPanel>
+                            </f:facet>
+
+                            <p:column filterBy="#{o.idcaso}" filterMatchMode="contains" headerText="Numero de Caso" >
+                                <h:outputText value="#{o.idcaso}"/>
+                            </p:column>
+
+                            <p:column headerText="Placa Vehículo"  filterBy="#{o.tvehiculo.placavehiculo}" filterMatchMode="contains" >
+                                <h:outputText value="#{o.tvehiculo.placavehiculo}" />
+                            </p:column>     
+
+                            <p:column headerText="Propietario"  >
+                                <h:outputText value="#{o.tvehiculo.tusuario.nombre} #{o.tvehiculo.tusuario.apellido}" />
+                            </p:column>
+
+                            <p:column headerText="Fecha Ingreso" style="">
+                                <h:outputText value="#{o.fechaserv}" >
+                                    <f:convertDateTime pattern="dd/MM/yyyy hh:mm a" />
+                                </h:outputText>
+                            </p:column>
+
+                            <p:column headerText="Estado" >
+                                <h:outputText value="#{o.estado}" />
+                            </p:column>
+
+                            <p:column headerText="Prioridad" >
+                                <h:outputText value="#{o.prioridad}" />
+                            </p:column>
+
+                            <p:column headerText="Servicio" >
+                                <h:outputText value="#{o.tproserv.nombre}" />
+                            </p:column>
+
+                            <!--<p:column headerText="Eliminar" >
+                                <p:commandButton value="Eliminar" actionListener="#{mbeanTusuario.eliminar(u)}" style="font-family:'Marvel', sans-serif;" 
+                                                 update=":Datos :msj" />
+                            </p:column>-->
+
+                            <p:column headerText="Acciones" style="font-family:'Marvel', sans-serif; text-align: center" >
+                                <p:commandButton value="Editar" actionListener="#{mbeanOrdenserv.editardatos(o)}" 
+                                                 style="font-family:'Marvel', sans-serif; background-color: deepskyblue;"
+                                                 oncomplete="PF('editvalor').show();" update=":c" />
+                            </p:column>
+
+                            <p:column headerText="" style="font-family:'Marvel', sans-serif; text-align: center" >
+                                <p:commandButton value="Finalizar Servicio" actionListener="#{mbeanOrdenserv.editardatos(o)}" 
+                                                 style="font-family:'Marvel', sans-serif; background-color: deepskyblue;"
+                                                 oncomplete="PF('fincaso').show();" update=":t" />
+                            </p:column>
+                        </p:dataTable>             
+
+
+
+                    </h:form>
+                </ui:define>
+            </ui:composition>
+        </h:form>
+    </h:body>
+</html>

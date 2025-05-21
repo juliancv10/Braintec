@@ -7,13 +7,11 @@ package Entity;
 
 import java.io.Serializable;
 import java.util.Objects;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -23,7 +21,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "tvehiculo")
 public class Tvehiculo implements Serializable{
-    
+
     @Id
     @Column(name = "placavehiculo")
     private String placavehiculo;
@@ -32,14 +30,14 @@ public class Tvehiculo implements Serializable{
     @Column(name = "modelovehiculo")
     private String modelovehiculo;
     @Column(name = "cilindrajevehiculo")
-    private String cilindrajevehiculo;
+    private Integer cilindrajevehiculo;
     @Column(name = "kilometrajevehiculo")
-    private String kilometrajevehiculo;
+    private Integer kilometrajevehiculo;
     @Column(name = "trasmisionvehiculo")
     private String trasmisionvehiculo;
     @Column(name = "aniovehiculo")
-    private int aniovehiculo;
-    @ManyToOne (cascade = CascadeType.PERSIST)
+    private Integer aniovehiculo;
+    @ManyToOne
     @JoinColumn(name = "numdocumento")
     private Tusuario tusuario;
 
@@ -67,19 +65,19 @@ public class Tvehiculo implements Serializable{
         this.modelovehiculo = modelovehiculo;
     }
 
-    public String getCilindrajevehiculo() {
+    public Integer getCilindrajevehiculo() {
         return cilindrajevehiculo;
     }
 
-    public void setCilindrajevehiculo(String cilindrajevehiculo) {
+    public void setCilindrajevehiculo(Integer cilindrajevehiculo) {
         this.cilindrajevehiculo = cilindrajevehiculo;
     }
 
-    public String getKilometrajevehiculo() {
+    public Integer getKilometrajevehiculo() {
         return kilometrajevehiculo;
     }
 
-    public void setKilometrajevehiculo(String kilometrajevehiculo) {
+    public void setKilometrajevehiculo(Integer kilometrajevehiculo) {
         this.kilometrajevehiculo = kilometrajevehiculo;
     }
 
@@ -91,11 +89,11 @@ public class Tvehiculo implements Serializable{
         this.trasmisionvehiculo = trasmisionvehiculo;
     }
 
-    public int getAniovehiculo() {
+    public Integer getAniovehiculo() {
         return aniovehiculo;
     }
 
-    public void setAniovehiculo(int aniovehiculo) {
+    public void setAniovehiculo(Integer aniovehiculo) {
         this.aniovehiculo = aniovehiculo;
     }
 
@@ -109,8 +107,8 @@ public class Tvehiculo implements Serializable{
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 37 * hash + Objects.hashCode(this.placavehiculo);
+        int hash = 7;
+        hash = 97 * hash + Objects.hashCode(this.placavehiculo);
         return hash;
     }
 

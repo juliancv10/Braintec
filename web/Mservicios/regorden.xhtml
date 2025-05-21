@@ -1,0 +1,198 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../WEB-INF/templates/plantilla.xhtml">
+
+            <ui:define name="content">
+
+                <p:growl  id="msgs" autoUpdate="true" showDetail="true" ></p:growl>
+
+
+                <h:form id="formOrden">
+                    <p:panel header="" style="width: 1100px; height: 100%; margin: 0 auto; text-align: center;">
+
+                        <p:messages id="messages" showDetail="true" closable="true">
+
+                        </p:messages>
+
+                        <p:layout id="capaDatosClienteOrden" style="width: 100%; height: 150px;">
+                            <p:layoutUnit id="datosCliente" position="center" style="padding: 5px; text-align: justify;
+                                          font-size: 14px;" size="300">
+                                <h:panelGrid id="gridBuscarDatosCliente" columns="5" style="font-family:'Marvel', sans-serif; font-size: 1.2em;" >
+
+
+                                    <p:commandButton value="Buscar Usuario" oncomplete="PF('dialogClientes').show();" style="font-family:'Marvel', sans-serif; background-color: deepskyblue;"
+                                                     update=":formOrden:dlgClientes"/>
+
+                                    <p:outputLabel value="Fecha: " style="font-family:'Marvel', sans-serif; font-size: 1.2em;"/>
+                                    <p:outputLabel value=" #{mbeanOrdenes.fechaOrden}" style="font-family:'Marvel', sans-serif; font-size: 1.2em;" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy hh:mm a" />
+                                    </p:outputLabel>
+                                </h:panelGrid>  
+                                <p:separator/>
+                                <h:panelGrid id="gridDatosCliente" columns="2" style="font-family:'Marvel', sans-serif; font-size: 1.2em;">
+                                    <p:outputLabel value="N Documento:  " style="font-family:'Marvel', sans-serif" />
+                                    <p:outputLabel id="lblNdocumentoCliente" value="#{mbeanOrdenes.usuario eq null?'':mbeanOrdenes.usuario.numdocumento}" style="font-family:'Marvel', sans-serif" />
+
+                                    <p:outputLabel value="Nombres:  " style="font-family:'Marvel', sans-serif"  />
+                                    <p:outputLabel id="lblNombreCliente" value="#{mbeanOrdenes.usuario eq null?'':mbeanOrdenes.usuario.nombre}" style="font-family:'Marvel', sans-serif" />
+
+                                    <p:outputLabel value="Apellidos:  " style="font-family:'Marvel', sans-serif"/>
+                                    <p:outputLabel id="lblApellidoCliente" value="#{mbeanOrdenes.usuario eq null?'':mbeanOrdenes.usuario.apellido}" style="font-family:'Marvel', sans-serif" />
+                                </h:panelGrid>
+                            </p:layoutUnit> 
+
+                            <p:layoutUnit id="datosOrden" position="east" style="padding: 5px; text-align: center;
+                                          font-size: 14px;" size="200">
+                                <h:panelGrid columns="1" style="font-size: 24px; font-weight: bold; margin-top: 30px; margin: 0 auto;">
+                                    <p:outputLabel value="N° ORDEN" style="font-family:'Marvel', sans-serif"/>
+                                    <p:outputLabel value="#{mbeanOrdenes.ordenActual}" style="font-family:'Marvel', sans-serif"/>
+                                </h:panelGrid>
+                            </p:layoutUnit> 
+
+                        </p:layout>
+                        <p:separator/>
+
+                        <h:panelGrid id="pnlproducto" columns="6" >
+                            <p:outputLabel value="Productos" style="font-family:'Marvel', sans-serif; font-weight: bold" />
+                            <p:outputLabel value="Cantidad " style="font-family:'Marvel', sans-serif;"/>
+                            <p:inputText  size="12" value="#{mbeanOrdenes.detalleActual.cantidad}" style="font-family:'Marvel', sans-serif;"/>
+
+                            <p:outputLabel value="Código Producto: " style="font-family:'Marvel', sans-serif;"/>
+                            <p:inputText  size="15" value="#{mbeanOrdenes.detalleActual.tproserv eq null?'':mbeanOrdenes.detalleActual.tproserv.codigo}" readonly="true" style="font-family:'Marvel', sans-serif;"/>
+                            <p:commandButton value="Buscar" oncomplete="PF('dialogProductos').show();" update=":formOrden:listaDetalle" style="font-family:'Marvel', sans-serif; background-color: deepskyblue;"/>
+                            <p:commandButton value="Agregar" process="@form" actionListener="#{mbeanOrdenes.agregarDetalle()}" update=":formOrden:listaDetalle,:msgs" style="font-family:'Marvel', sans-serif; background-color: deepskyblue;"/>
+                        </h:panelGrid>
+
+
+                        <p:separator/>
+
+                        <p:dataTable id="listaDetalle" value="#{mbeanOrdenes.detalleGuardar}"  var="d" paginator="true"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="5,10,15" style="font-family:'Marvel', sans-serif;">
+
+                            <p:column headerText="Código">
+                                <h:outputText value="#{d.tproserv.codigo}"/>
+                            </p:column>
+
+                            <p:column headerText="Nombre Producto">
+                                <h:outputText value="#{d.tproserv.nombre}"/>
+                            </p:column>
+
+                            <p:column headerText="Cantidad">
+                                <h:outputText value="#{d.cantidad}"/>
+                            </p:column>
+
+                            <p:column headerText="Tipo">
+                                <h:outputText value="#{d.tproserv.tcategoria.categoriarepuesto}"/>
+                            </p:column>
+
+                            <p:column headerText="Precio">
+                                <h:outputText value="#{d.tproserv.precio}">
+                                    <f:convertNumber type="currency" currencySymbol="$" />
+                                </h:outputText>
+                            </p:column>
+
+                            <p:column headerText="Total">
+                                <h:outputText value="#{d.total}">
+                                    <f:convertNumber type="currency" currencySymbol="$" />
+                                </h:outputText>
+                            </p:column>
+
+                        </p:dataTable>
+
+                        <p:outputLabel value="TOTAL VENTA:" style="font-family:'Marvel', sans-serif; font-size: 1.5em"/>
+                        <p:outputLabel value="#{mbeanOrdenes.totalOrdenm}" style="font-family:'Marvel', sans-serif; font-size: 1.5em">
+                            <f:convertNumber type="currency" currencySymbol="$" />
+                        </p:outputLabel>
+                        <p:separator/>
+
+
+                        <p:commandButton value="Registrar" actionListener="#{mbeanOrdenes.guardar()}" 
+                                         style="width: 150px; height: 50px; font-family:'Marvel', sans-serif; background-color: deepskyblue;" 
+                                         update=":formOrden"/>
+
+                        <p:commandButton value="Nuevo" style="width: 150px; height: 50px; font-family:'Marvel', sans-serif; background-color: deepskyblue;"
+                                         actionListener="#{mbeanOrdenes.limpiarop()}" update=":formOrden,:formOrden:listaDetalle" immediate="true" />
+
+
+                    </p:panel>
+
+                    <!--Dialogo Buscar Clientes-->
+
+                    <p:dialog id="dlgClientes" widgetVar="dialogClientes" modal="true" resizable="false"
+                              showEffect="explode" hideEffect="explode" >
+
+                        <p:dataTable id="Tusuario" value="#{mbeanTusuario.listaTusuario}" var="u" 
+                                     paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="5,10,15" rows="8" style="width: 700px; font-family:'Marvel', sans-serif;" emptyMessage="No hay Datos">
+
+                            <p:column headerText="Documento" filterBy="#{u.numdocumento}" filterMatchMode="contains">
+                                <h:outputText value="#{u.numdocumento}" />
+                            </p:column>
+                            <p:column headerText="Tipo de Documento" >
+                                <h:outputText value="#{u.tdocumento.tipodocumento}" />
+                            </p:column>
+                            <p:column headerText="Nombres">
+                                <h:outputText value="#{u.nombre}" />
+                            </p:column>
+                            <p:column headerText="Apellidos">
+                                <h:outputText value="#{u.apellido}" />
+                            </p:column>
+
+                            <p:column headerText="Acciones">
+                                <p:commandButton  value="Seleccionar" actionListener="#{mbeanOrdenes.setUsuario(u)}" oncomplete="PF('dialogClientes').hide();" style="font-family:'Marvel', sans-serif; background-color: deepskyblue;"
+                                                  update=":formOrden:gridDatosCliente" />
+                            </p:column>
+                        </p:dataTable>    
+                        <p:commandButton value="Cerrar" onclick="PF('dialogClientes').hide();" style="font-family:'Marvel', sans-serif; background-color: deepskyblue;"/>
+
+                    </p:dialog>
+
+                    <!-- Dialogo Buscar Productos-->
+
+                    <p:dialog id="dlgProductos" widgetVar="dialogProductos" modal="true" resizable="false"
+                              showEffect="explode" hideEffect="explode" >
+
+                        <p:dataTable id="Tproducto" value="#{mbeanTproserv.listarPS}" var="p" 
+                                     paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="5,10,15" rows="8" style=" width: 700px; font-family:'Marvel', sans-serif;" emptyMessage="No hay Datos">
+
+                            <p:column headerText="Id Producto">
+                                <h:outputText value="#{p.codigo}" />
+                            </p:column>
+                            <p:column headerText="Nombre Producto" >
+                                <h:outputText value="#{p.nombre}" />
+                            </p:column>
+                            <p:column headerText="Tipo">
+                                <h:outputText value="#{p.tcategoria.categoriarepuesto}" />
+                            </p:column>
+                            <p:column headerText="Precio">
+                                <h:outputText value="#{p.precio}" >
+                                    <f:convertNumber type="currency" currencySymbol="$" />
+                                </h:outputText>
+                            </p:column>
+
+                            <p:column headerText="">
+                                <p:commandButton  value="Seleccionar" actionListener="#{mbeanOrdenes.detalleActual.setTproserv(p)}" oncomplete="PF('dialogProductos').hide();"
+                                                  style="font-family:'Marvel', sans-serif; background-color: deepskyblue;" update=":formOrden" />
+                            </p:column>
+                        </p:dataTable>    
+                        <p:commandButton value="Cerrar" onclick="PF('dialogProductos').hide();" style="font-family:'Marvel', sans-serif; background-color: deepskyblue;" />
+
+                    </p:dialog>
+
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

@@ -9,14 +9,16 @@ import EJB.TusuarioFacadeLocal;
 import Entity.Tdocumento;
 import Entity.Tusuario;
 import java.io.Serializable;
+
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import org.jboss.weld.bean.builtin.FacadeInjectionPoint;
+import javax.faces.validator.ValidatorException;
 
 /**
  *
@@ -32,6 +34,7 @@ public class mbeanTusuario implements Serializable{
     private Tusuario tusuario;
     private Tdocumento tdocumento;
     private String msj;
+
 
     public List<Tusuario> getListaTusuario() {
         this.listaTusuario = this.tusuarioFacade.findAll();
@@ -71,7 +74,8 @@ public class mbeanTusuario implements Serializable{
             this.msj ="Registro creado correctamente";
             this.tdocumento = new Tdocumento();
             this.tusuario = new Tusuario();
-            
+
+
         } catch (Exception e) {
             e.printStackTrace();
             this.msj = "Error" + e.getMessage();
@@ -115,5 +119,19 @@ public class mbeanTusuario implements Serializable{
     public void limpiar(){
         this.tdocumento = new Tdocumento();
         this.tusuario = new Tusuario();
+    }
+
+    public void validate(FacesContext arg0, UIComponent arg1, Object arg2)
+            throws ValidatorException {
+        if (!(arg2 instanceof Integer)) {
+            throw new ValidatorException(new FacesMessage("Debe ser un entero"));
+        }
+
+        int valor = (Integer) arg2;
+
+        if ((valor < 1000000) || (valor > 199999999)) {
+            throw new ValidatorException(new FacesMessage(
+                    "Debe ingresar un documento mayor a 1000000"));
+        }
     }
 }

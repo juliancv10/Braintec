@@ -1,0 +1,31 @@
+.body{
+   
+    background-image:url("#{resource['img/Breintec1.png']}");
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-left:  auto;
+    margin-right: auto;
+    background-attachment: fixed;
+
+}
+#Container{
+    
+    width: 1024px;
+    margin: 0 auto;
+    
+     
+
+}
+
+#Entrdada{
+    margin: 300px;
+    width: 40%;
+    text-align: center;
+    padding: 0 10px;
+    border-radius: 5px;
+    margin: 10% auto;
+    background:#238276;
+    opacity: 90%;
+    color: #ffffff;
+}
+

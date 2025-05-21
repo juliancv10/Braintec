@@ -1,4 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' ?>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
@@ -6,20 +7,43 @@
 
     <h:head>
         <title>Login</title>
+        <h:outputStylesheet library="css" name="EstiloLogin.css"/>
     </h:head>
     <h:body>
+
         <h:form> 
             <p:messages autoUpdate="true" showDetail="true"/>
-            <h:panelGrid columns="2">
-                <p:outputLabel for="txtUsuario" value="Usuario"/>
-                <p:inputText id="txtUsuario" value="#{mbeanTempleado.templeado.usuarioempleado}" required="true"/>
+            <div class="encabezado">
+                <h1>Inicio de Sesión</h1> <!-- inicio de sesion -->
+            </div>
+            <div class="Cuerpo">
+                <div>
+                    <label for="usuario">Usuario</label>
+                </div>
+                <div>
+                    <p:inputText id="txtUsuario" value="#{mbeanTempleado.templeado.usuarioempleado}" required="true"
+                                 style="font-family: 'Marvel', sans-serif;"/>
+                </div>
+                <div>
+                    <label for="contrasena">Contraseña</label> <!-- contraseña-->
+                </div>
+                <div>
+                    <p:inputText type="password" id="txtContraseña"
+                                 value="#{mbeanTempleado.templeado.contrasenaempleado}" required="true"
+                                 style="font-family: 'Marvel', sans-serif;"/>
+                </div>
+            </div>
+            <div class="pie">
+                <p:commandButton value="Ingresar" action="#{mbeanTempleado.iniciarSesion()}" style="  
+                                 padding: 2%; background: #238276; text-align: center; color:  white; border-radius: 5%; "
+                                 icon="ui-icon-key"/>
 
-                <p:outputLabel for="txtContraseña" value="Contraseña"/>
-                <p:inputText type="password" id="txtContraseña" value="#{mbeanTempleado.templeado.contrasenaempleado}" required="true"/>
-             
-                <h:column/>
-                <p:commandButton icon= "ui-icon-key" value="Iniciar Sesion" action="#{mbeanTempleado.iniciarSesion()}"/>
-            </h:panelGrid>
+                <p:commandButton value="Cancelar"
+                                 style="text-decoration: none; padding: 2%; background: #238276; text-align: center; color:  white; "/>
+
+
+            </div>
+
         </h:form>
     </h:body>
 </html>

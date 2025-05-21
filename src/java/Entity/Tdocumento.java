@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+
 /**
  *
  * @author Julian Camilo
@@ -24,7 +25,7 @@ public class Tdocumento implements Serializable{
     private int iddocumento;
     @Column(name = "tipodocumento")
     private String tipodocumento;
-    
+
     public int getIddocumento() {
         return iddocumento;
     }
@@ -42,32 +43,8 @@ public class Tdocumento implements Serializable{
     }
 
     @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 29 * hash + this.iddocumento;
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Tdocumento other = (Tdocumento) obj;
-        if (this.iddocumento != other.iddocumento) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
     public String toString() {
         return "Tdocumento{" + "iddocumento=" + iddocumento + '}';
     }
+
 }

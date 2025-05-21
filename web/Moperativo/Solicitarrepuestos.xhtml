@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"  />
+        <title>Solicitud de repuestos</title>
+        <h:outputStylesheet  library="css" name="solicitudrepuestos.css"/>
+        <link href="../resources/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+    </h:head>
+
+    <h:body id="principal">
+        <h:form>
+            <ui:composition template="../WEB-INF/templates/plantilla.xhtml">
+
+                <ui:define name="content">
+                    <div id="cuadro"> 
+                        <h:form>
+
+                            <img src="../resources/img/Mecanico2.png" alt="" width="30%" style=" border-radius: 50%;"/>
+                            <p:messages autoUpdate="true" showDetail="true"/>
+                            <h:panelGrid columns="2" >
+
+                                <p:outputLabel for="txtNoPedido" value="Solicitud N°." />
+                                <p:inputText id="txtNoPedido" value="#{mbeanOrdenpedido.ordenpedido.idopedido}" style="width: 80%;" required="true"/>
+
+                                <p:outputLabel value="Fecha Del Pedido"/>
+                                <p:calendar style="width:50%" value="#{mbeanOrdenpedido.ordenpedido.fpedido}"/>
+
+                                <p:outputLabel value="Documento cliente"/>
+                                <p:selectOneMenu   style="width: 100%;" value="#{mbeanTusuario.tusuario.nombre}">
+                                    <f:selectItems value="#{mbeanTusuario.listaTusuario}" var="u"
+                                                   itemValue="#{u.nombre}" itemLabel="#{u.numdocumento} #{u.nombre} #{u.apellido} "/>
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="Tipo de repuesto"/>
+                                <p:selectOneMenu   style="width: 100%;" value="#{mbeanTinventario.tinventario.refrepuesto}">
+                                    <f:selectItems value="#{mbeanTinventario.listaTinventario}" var="d"
+                                                   itemValue="#{d.refrepuesto}" itemLabel="#{d.refrepuesto} #{d.nombrerepuesto}"/>
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="Estado pedido"/>
+                                <p:selectOneMenu   style="width: 80%;" value="#{mbeanEstadoordenped.estadoordenped.idestordenped}">
+                                    <f:selectItems value="#{mbeanEstadoordenped.listaEstadoordenped}" var="o"
+                                                   itemValue="#{o.idestordenped}" itemLabel="#{o.estadoordenped}"/>
+                                </p:selectOneMenu>
+
+                                <h:column>
+                                    <p:commandButton actionListener="#{mbeanOrdenpedido.guardar()}" oncomplete="PF('valor').hide();"
+                                                     rendered="#{mbeanOrdenpedido.ordenpedido.idopedido ==0}" 
+                                                     style="color: #ffffff; background-color: #238276" value="Enviar" />
+                                </h:column>
+                                <h:column>
+                                    <p:commandButton style="color: #ffffff; background-color: #238276;  " value="Cancelar"/>
+                                </h:column>
+                            </h:panelGrid>
+
+                        </h:form>
+                    </div>
+                </ui:define>
+            </ui:composition>
+        </h:form>
+    </h:body>
+</html>

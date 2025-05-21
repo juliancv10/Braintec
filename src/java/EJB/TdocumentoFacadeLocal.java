@@ -28,6 +28,8 @@ public interface TdocumentoFacadeLocal {
 
     List<Tdocumento> findRange(int[] range);
 
+    Tdocumento buscar(String nombre);
+
     int count();
     
 }

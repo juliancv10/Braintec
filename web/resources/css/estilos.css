@@ -1,0 +1,270 @@
+@import url('https://fonts.googleapis.com/css?family=Marvel&display=swap');
+*{
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+/*Clases Especiales*/
+.borde{
+	border: 1px solid gray;
+}
+.titulo{
+	width: 100%;
+	height: 50px; 
+	background: rgb(0,153,204);
+	color: #FFF;
+	text-align: center;
+	font-size: 2em;
+}
+/*Cuerpo*/
+body{
+        background-image: url('../img/fondo.jpg');
+	background-size: 100%;
+	background-attachment: fixed;
+	font-family: 'Marvel', sans-serif;
+}
+/*contenedor*/
+.contenedor{
+	width: 98%;
+	max-width: 1280px;
+	margin: auto;
+}
+.barra{
+	width: 100%;
+	height: 150px;
+	background:white;
+        
+}
+.logo{
+	width: 20%;
+	height: 80%;
+	float: left;
+	text-align: center;
+        margin-top: 3%;
+        
+}
+.logo img{
+	width: 100%;
+	height: 100%;
+	padding: 20px;
+}
+/*navegador*/
+nav{
+	width: 98%;
+	height: 50px;
+	background: rgb(0,153,204);
+	font-family: 'Marvel', sans-serif;
+	max-width: 1280px;
+	position: fixed;
+}
+.navegacion{
+	width: 85%;
+	height: 100%;
+	float: left;
+}
+.ingreso{
+	width: 15%;
+	height: 100%;
+	float: left;
+}
+/*Nivel0*/
+nav ul{
+	list-style: none;
+	text-align: right;
+}
+nav ul li{
+	width: 130px;
+}
+nav ul li:hover ul{
+	display: block;
+}
+nav .navegacion ul li{
+	background: rgba(0,153,204,0.7);
+}
+nav .navegacion>ul>li{
+	display: inline-block;
+}
+nav .ingreso ul li{
+	width: 100%;
+}
+nav ul li a{
+	display: block;
+	text-decoration: none;
+	color: #fff;
+	padding: 15px 5px;
+	text-align: center;
+	border-bottom: 2px	solid #fff;
+}
+nav ul li a:hover{
+	background: rgb(0,0,0,0.5);
+	border-bottom: 2px	solid #238276;
+}
+/*Nivel1*/
+nav li ul{
+	position: absolute;
+	display: none;
+}
+nav li ul li{
+
+}
+/*Nivel2*/
+nav li ul li ul{
+
+}
+/*encabezado*/
+header{
+	width: 100%;
+	height: 750px;
+	background-image: url("../img/FondoHeader2.jpg");
+	background-size: 100% 100%;
+        margin-top: 3%;
+}
+/*portafolio*/
+main#portafolio{
+	width: 100%;
+	height: 850px;
+	background: rgba(255,255,255,0.5);
+}
+.div-porta{
+	width: 33.33%;
+	height:100%;
+	padding: 50px;
+	float: left;
+	text-align: center;
+}
+.div-porta img{
+	width: 150px;
+	height: 150px;
+	margin: 40px 0px 0px 0px;
+	border-radius: 10%;
+}
+.div-porta p{
+	margin: 40px 0px 0px 0px;
+	text-align: justify;
+}
+/*quienes somos*/
+section#quienessomos{
+	width: 100%;
+	height: 850px;
+	background: rgba(255,255,255,0.5);
+}
+.file{
+	width: 100%;
+	height: 33.33%;
+}
+.div-colext1 p{
+	margin: 40px 0px 0px 0px;
+	text-align: justify;
+}
+.colcen img{
+	width: 150px;
+	height: 150px;
+	margin: 15px 0px 0px 0px;
+	border-radius: 10%;
+}
+.div-colext2 p{
+	margin: 40px 0px 0px 0px;
+	text-align: justify;
+}
+.colext1{
+	width: 40%;
+	height: 100%;
+	padding: 30px;
+	float: left;
+	text-align: right;
+}
+.colcen{
+	width: 20%;
+	height: 100%;
+	padding: 50px;
+	float: left;
+	text-align: center;
+}
+.colext2{
+	width: 40%;
+	height: 100%;
+	padding: 30px;
+	float: left;
+	text-align: left;
+}
+/*contactenos*/
+section#contactenos{
+	width: 100%;
+	height: 650px;
+	background: rgba(255,255,255,0.5);
+}
+.div_contacto{
+	width: 50%;
+	height:100%;
+	float: left;
+	opacity: 80%;
+}
+.div_contacto h1{
+	text-align: center;
+	text-decoration-line: left 10px;
+	margin: 20px;
+	background: rgb(0,153,204);
+}
+.div_contacto form{
+	width: 90%;
+	background: rgb(0,153,204);
+	margin: 40px;
+	padding: 40px;
+	font-weight: bold;
+}
+.div_coctacto label{
+	font-size: 12px;
+	display: block;
+	width: 100%;
+}
+
+.div_contacto textarea{
+	resize: vertical;
+	max-height: 100px;
+	min-width: 50px;
+}
+
+.div_contacto input{
+	margin-bottom: 20px;
+	width: 100%;
+	padding: 5px;
+}
+
+.div_contacto textarea{
+	margin-bottom: 25px;
+	width: 100%;
+	padding: 5px;
+}
+
+.div_contacto input:focus{
+	border: 1px #021032;
+}
+
+.div_contacto input[type="submit"]{
+	margin-bottom: 0px;
+	background: #021032;
+	color: #fff;
+	border: none;
+}
+.div_contacto input[type="submit"]:hover{
+	background: black;
+	cursor: pointer;
+}
+
+.div_arr{
+	width: 100%;
+	height: 70%;
+	padding: 30px;
+}
+
+.div_arr iframe{
+	width: 100%;
+	height: 100%;
+	border: 0;
+}
+.div_abj{
+	width: 100%;
+	height: 30%;
+}.border {
+
+}

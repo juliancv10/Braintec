@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>TODO supply a title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body>
+
+
+        <h:form >
+            <p:panelGrid columns="3" style="margin-bottom:10px" columnClasses="label, value" >
+                <p:outputLabel for="clientes" value="Clientes:" />
+                <p:selectOneListbox id="clientes" value="#{ordenBean.tusuario}" filter="true" filterMatchMode="contains"  style="width:700px" converter="omnifaces.SelectItemsConverter">
+
+                    <f:selectItems value="#{mbeanTusuario.listaTusuario}" var="us" itemLabel="#{us.nombre.concat(us.apellido.concat(us.numdocumento))}" itemValue="#{us}" />
+                </p:selectOneListbox>
+                <p:commandButton value="Seleccionar" oncomplete="PF('dlg').show()" icon="pi pi-check" />
+            </p:panelGrid>
+
+            <p:panelGrid columns="5" style="margin-bottom:10px; columns: calc" columnClasses="label, value">
+                <p:outputLabel for="productos" value="Productos:" />
+                <p:selectOneListbox id="productos" value="#{ordenBean.tproserv}" filter="true" filterMatchMode="contains"  style="width:700px" converter="omnifaces.SelectItemsConverter">
+                    <f:selectItems value="#{mbeanTproserv.listaTproserv}" var="pro" itemLabel="#{pro.nombre}" itemValue="#{pro}" />
+                </p:selectOneListbox>
+
+                <p:outputLabel value="Cantidad"/>
+                <p:inputText value="#{ordenBean.cantidad}"/>
+                <p:commandButton value="Agregar" actionListener="#{ordenBean.agregar()}" update="listadetalle" />
+            </p:panelGrid>
+
+
+            <p:separator />
+
+            <p:dataTable id="listadetalle" value="#{ordenBean.listadetalle}" var="det" paginator="true"
+                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15">
+
+                <p:column headerText="Codigo">
+                    <h:outputText value="#{det.tproserv.codigo}" />
+                </p:column>
+
+                <p:column headerText="Nombre">
+                    <h:outputText value="#{det.tproserv.nombre}"/>
+                </p:column>
+
+                <p:column headerText="Cantidad">
+                    <h:outputText value="#{det.cantidad}"/>
+                </p:column>
+
+                <p:column headerText="Precio">
+                    <h:outputText value="#{det.tproserv.precio}"/>
+                </p:column>
+            </p:dataTable>
+
+            <p:commandButton value="Registrar"  />
+
+        </h:form>
+    </h:body>
+</html>

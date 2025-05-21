@@ -5,38 +5,42 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>VEHICULOS</title>
+        <title>TVEHICULOS</title>
     </h:head>
         <h:body>
         <p:growl id="msj" />
         <h:form id="Nuevo">
             <p:fieldset legend="Nuevo" toggleable="true">
-                <p:panelGrid columns="1">
+                <p:panelGrid columns="2">
                     <p:commandButton value="Nuevo" oncomplete="PF('valor').show();"/>
                 </p:panelGrid>
             </p:fieldset>
         </h:form>
         <p:dialog widgetVar="valor" modal="true" showEffect="clip" header="Nuevo Registro" resizable="false">
+            <p:ajax event="close" listener="#{mbeanTvehiculo.limpiar()}" update=":p"/>
             <h:form id="p">
                 <p:panelGrid columns="2">
                     <p:outputLabel value="Placa Vehiculo"/>
-                    <p:inputText value="#{tvehiculombean.tvehiculo.placaVehiculo}"/>
+                    <p:inputText value="#{mbeanTvehiculo.tvehiculo.placavehiculo}"/>
                     <p:outputLabel value="Marca Vehiculo"/>
-                    <p:inputText value="#{tvehiculombean.tvehiculo.marcaVehiculo}"/>
+                    <p:inputText value="#{mbeanTvehiculo.tvehiculo.marcavehiculo}"/>
                     <p:outputLabel value="Modelo Vehiculo"/>
-                    <p:inputText value="#{tvehiculombean.tvehiculo.modeloVehiculo}"/>
+                    <p:inputText value="#{mbeanTvehiculo.tvehiculo.modelovehiculo}"/>
                     <p:outputLabel value="Cilindraje"/>
-                    <p:inputText value="#{tvehiculombean.tvehiculo.cilindrajeVehiculo}"/>
+                    <p:inputText value="#{mbeanTvehiculo.tvehiculo.cilindrajevehiculo}"/>
                     <p:outputLabel value="Kilometraje"/>
-                    <p:inputText value="#{tvehiculombean.tvehiculo.kilometrajeVehiculo}"/>
+                    <p:inputText value="#{mbeanTvehiculo.tvehiculo.kilometrajevehiculo}"/>
                     <p:outputLabel value="Trasmision"/>
-                    <p:inputText value="#{tvehiculombean.tvehiculo.trasmisionVehiculo}" />
-                    <p:outputLabel value="Año Vehiculo" />
-                    <p:calendar value="#{tvehiculombean.tvehiculo.anioVehiculo}">
-                        <f:convertDateTime timeStyle="year" pattern="YYYY"/>
-                    </p:calendar>
-                                
-                    <p:commandButton value="Guardar" actionListener="#{tvehiculombean.guardar()}" oncomplete="PF('valor').hide();"
+                    <p:inputText value="#{mbeanTvehiculo.tvehiculo.trasmisionvehiculo}"/>
+                    <p:outputLabel value="Año"/>
+                    <p:inputText value="#{mbeanTvehiculo.tvehiculo.aniovehiculo}"/>
+                    <p:outputLabel value="N.Documento"/>
+                    <p:selectOneMenu value="#{mbeanTvehiculo.tusuario.numdocumento}">
+                        <f:selectItems value="#{mbeanTusuario.listaTusuario}" var="d"
+                                       itemValue="#{d.numdocumento}" itemLabel="#{d.numdocumento}"/>
+                    </p:selectOneMenu>
+                    <p:commandButton value="Guardar" actionListener="#{mbeanTvehiculo.guardar()}"
+                                     oncomplete="PF('valor').hide();"
                                      update=":Datos p :msj"/>
                 </p:panelGrid>
             </h:form>
@@ -44,29 +48,30 @@
         
         <h:form id="Datos">
             <p:fieldset legend=" Datos" toggleable="true">
-                <p:dataTable value="#{tvehiculombean.listaTVehiculo}" var="u">
-                    <p:column headerText="Placa Vehiculo">
-                        <h:outputText value="#{u.placaVehiculo}" />
+                <p:dataTable value="#{mbeanTvehiculo.listaTvehiculo}" var="u">
+                    <p:column headerText="Placa" filterBy="#{u.placavehiculo}" filterMatchMode="contains">
+                        <h:outputText value="#{u.placavehiculo}"/>
                     </p:column>
-                    <p:column headerText="Marca">
-                        <h:outputText value="#{u.marcaVehiculo}" />
+                    <p:column headerText="Marca" filterBy="#{u.marcavehiculo}" filterMatchMode="contains">
+                        <h:outputText value="#{u.marcavehiculo}"/>
                     </p:column>
-                    <p:column headerText="Modelo">
-                        <h:outputText value="#{u.modeloVehiculo}" />
+                    <p:column headerText="Modelo" filterBy="#{u.modelovehiculo}" filterMatchMode="contains">
+                        <h:outputText value="#{u.modelovehiculo}"/>
                     </p:column>
-                    <p:column headerText="Cilindraje">
-                        <h:outputText value="#{u.cilindrajeVehiculo}" />
+                    <p:column headerText="Cilindraje" filterBy="#{u.cilindrajevehiculo}" filterMatchMode="contains">
+                        <h:outputText value="#{u.cilindrajevehiculo}"/>
                     </p:column>
-                    <p:column headerText="Kilometraje">
-                        <h:outputText value="#{u.kilometrajeVehiculo}" />
+                    <p:column headerText="Kilometraje" filterBy="#{u.kilometrajevehiculo}" filterMatchMode="contains">
+                        <h:outputText value="#{u.kilometrajevehiculo}"/>
                     </p:column>
-                    <p:column headerText="Trasmision">
-                        <h:outputText value="#{u.trasmisionVehiculo}" />
+                    <p:column headerText="Trasmision" filterBy="#{u.trasmisionvehiculo}" filterMatchMode="contains">
+                        <h:outputText value="#{u.trasmisionvehiculo}"/>
                     </p:column>
-                    <p:column headerText="Año Vehiculo">
-                        <h:outputText value="#{u.anioVehiculo}">
-                            <f:convertDateTime pattern="YYYY"/>
-                        </h:outputText>
+                    <p:column headerText="Año" filterBy="#{u.aniovehiculo}" filterMatchMode="contains">
+                        <h:outputText value="#{u.aniovehiculo}"/>
+                    </p:column>
+                    <p:column headerText="N.Documento" filterBy="#{u.tusuario.numdocumento}" filterMatchMode="contains">
+                        <h:outputText value="#{u.tusuario.numdocumento}"/>
                     </p:column>
                      <p:column headerText="Eliminar">
                          <p:commandButton value="Eliminar" actionListener="#{mbeanTvehiculo.eliminar(u)}" 

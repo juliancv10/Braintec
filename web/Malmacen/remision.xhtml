@@ -1,0 +1,239 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../WEB-INF/templates/plantilla.xhtml">
+
+            <ui:define name="content">
+                <p:growl  id="msgs" autoUpdate="true" showDetail="true" ></p:growl>
+
+
+                <h:form id="formRemision">
+                    <p:panel header="" style="width: 1100px; height: 100%; margin: 0 auto; text-align: center;">
+
+
+
+                        <p:layout id="capaDatosOrdenpago" style="width: 100%; height: 190px;">
+                            <p:layoutUnit id="datosCliente" position="center" style="padding: 5px; text-align: justify;
+                                          font-size: 14px;" size="300">
+                                <h:panelGrid id="gridBuscarDatosOrden" columns="5" style="font-family:'Marvel', sans-serif; font-size: 1.2em;" >
+
+
+                                    <p:commandButton value="Buscar Orden" oncomplete="PF('dialogOrden').show();" style="font-family:'Marvel', sans-serif; background-color: deepskyblue;"
+                                                     update=":formRemision:dlgOrden" />
+
+                                    <p:outputLabel value="Fecha: " style="font-family:'Marvel', sans-serif; font-size: 1.2em;"/>
+                                    <p:outputLabel value=" #{mbeanRemision.fechaRemision}" style="font-family:'Marvel', sans-serif; font-size: 1.2em;" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy hh:mm a" />
+                                    </p:outputLabel>
+                                </h:panelGrid>  
+                                <p:separator/>
+                                <h:panelGrid id="gridDatosCliente" columns="2" style="font-family:'Marvel', sans-serif; font-size: 1.2em;">
+                                    <p:outputLabel value="Numero de Orden:  " style="font-family:'Marvel', sans-serif" />
+                                    <p:outputLabel id="lblNOrden" value="#{mbeanRemision.omaestro eq null?'':mbeanRemision.omaestro.idocabecera}" style="font-family:'Marvel', sans-serif" />
+
+                                    <p:outputLabel value="Cliente:  " style="font-family:'Marvel', sans-serif"  />
+                                    <p:outputLabel id="lblCliente" value="#{mbeanRemision.omaestro eq null?'':mbeanRemision.omaestro.tusuario.numdocumento}" style="font-family:'Marvel', sans-serif" />
+
+                                    <p:outputLabel value="Fecha de Creacion:  " style="font-family:'Marvel', sans-serif"/>
+                                    <p:outputLabel id="lblFcreacion" value="#{mbeanRemision.omaestro eq null?'':mbeanRemision.omaestro.fecha}" style="font-family:'Marvel', sans-serif" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy hh:mm a" />
+                                    </p:outputLabel>
+
+                                    <p:outputLabel value="Valor Total:  " style="font-family:'Marvel', sans-serif"/>
+                                    <p:outputLabel id="lblTotal" value="#{mbeanRemision.omaestro eq null?'':mbeanRemision.omaestro.monto}" style="font-family:'Marvel', sans-serif" >
+                                        <f:convertNumber type="currency" currencySymbol="$" />
+                                    </p:outputLabel>
+
+                                    <p:commandButton value="Ver Detalles Orden" actionListener="#{mbeanOrdenes.listardetop(mbeanRemision.omaestro)}" 
+                                                     oncomplete="PF('valor').show()" update="p" style="font-family:'Marvel', sans-serif; background-color: deepskyblue;" />
+                                </h:panelGrid>
+                            </p:layoutUnit> 
+
+                            <p:layoutUnit id="datosOrden" position="east" style="padding: 5px; text-align: center;
+                                          font-size: 14px;" size="200">
+                                <h:panelGrid columns="1" style="font-size: 24px; font-weight: bold; margin-top: 30px; margin: 0 auto;">
+                                    <p:outputLabel value="N° Remision" style="font-family:'Marvel', sans-serif"/>
+                                    <p:outputLabel value="#{mbeanRemision.remisionActual}" style="font-family:'Marvel', sans-serif"/>
+                                </h:panelGrid>
+                            </p:layoutUnit> 
+
+                        </p:layout>
+                        <p:separator/>
+
+                        <h:panelGrid columns="8"  >
+
+                            <p:outputLabel value="Cantidad " style="font-family:'Marvel', sans-serif;"/>
+                            <p:inputText  size="12" value="#{mbeanRemision.detalleActRem.cantidad}" style="font-family:'Marvel', sans-serif;"/>
+
+                            <p:outputLabel value="Código Producto: " style="font-family:'Marvel', sans-serif;"/>
+                            <p:inputText  size="15" value="#{mbeanRemision.detalleActRem.tproserv eq null?'':mbeanRemision.detalleActRem.tproserv.idps}" readonly="true" style="font-family:'Marvel', sans-serif;"/>
+                            <p:commandButton value="Buscar" oncomplete="PF('dialogProductos').show();" update=":formRemision:listaDetalle" style="font-family:'Marvel', sans-serif; background-color: deepskyblue;"/>
+                            <p:commandButton value="Agregar" process="@form" actionListener="#{mbeanRemision.agregarItems()}" update=":formRemision:listaDetalle,:msgs" style="font-family:'Marvel', sans-serif; background-color: deepskyblue;"/>
+                        </h:panelGrid>
+
+                        <p:separator/>
+
+                        <p:dataTable id="listaDetalle" value="#{mbeanRemision.detalleGuardarRem}"  var="d" paginator="true"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="5,10,15" style="font-family:'Marvel', sans-serif;">
+
+                            <p:column headerText="Código">
+                                <h:outputText value="#{d.tproserv.codigo}"/>
+                            </p:column>
+
+                            <p:column headerText="Nombre Producto">
+                                <h:outputText value="#{d.tproserv.nombre}"/>
+                            </p:column>
+
+                            <p:column headerText="Cantidad">
+                                <h:outputText value="#{d.cantidad}"/>
+                            </p:column>
+
+                            <p:column headerText="Tipo">
+                                <h:outputText value="#{d.tproserv.tcategoria.categoriarepuesto}"/>
+                            </p:column>
+
+                            <p:column headerText="Precio">
+                                <h:outputText value="#{d.tproserv.precio}">
+                                    <f:convertNumber type="currency" currencySymbol="$" />
+                                </h:outputText>
+                            </p:column>
+
+                        </p:dataTable>
+
+                        <p:separator/>
+
+
+                        <p:commandButton value="Registrar" actionListener="#{mbeanRemision.guardarRem()}" 
+                                         style="width: 150px; height: 50px; font-family:'Marvel', sans-serif; background-color: deepskyblue;" 
+                                         update=":formRemision"/>
+
+                        <p:commandButton value="Nuevo" style="width: 150px; height: 50px; font-family:'Marvel', sans-serif; background-color: deepskyblue;"
+                                         actionListener="#{mbeanRemision.limpiarop()}" update=":formRemision,:formRemision:listaDetalle" immediate="true" />
+
+
+                    </p:panel>
+
+                    <!--Dialogo Buscar Ordenes-->
+
+                    <p:dialog id="dlgOrden" widgetVar="dialogOrden" modal="true" resizable="false"
+                              showEffect="explode" hideEffect="explode" >
+
+                        <p:dataTable id="Ordenmaestro" value="#{mbeanOrdenes.listaOrdenM}" var="u" 
+                                     paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="5,10,15" rows="8" style=" width: 700px; font-family:'Marvel', sans-serif; text-align: center;" emptyMessage="No hay Datos">
+
+                            <p:column headerText="Numero Orden" filterBy="#{u.idocabecera}" filterMatchMode="contains">
+                                <h:outputText value="OP#{u.idocabecera}" />
+                            </p:column>
+                            <p:column headerText="Cliente" >
+                                <h:outputText value="#{u.tusuario.numdocumento} #{u.tusuario.nombre} #{u.tusuario.apellido}" />
+                            </p:column>
+                            <p:column headerText="Fecha  de Creación Orden">
+                                <h:outputText value="#{u.fecha}" />
+                            </p:column>
+                            <p:column headerText="Total">
+                                <h:outputText value="#{u.monto}" >
+                                    <f:convertNumber type="currency" currencySymbol="$" />
+                                </h:outputText>
+                            </p:column>
+
+                            <p:column headerText="Acciones">
+                                <p:commandButton  value="Seleccionar" actionListener="#{mbeanRemision.setOmaestro(u)}" oncomplete="PF('dialogOrden').hide();"
+                                                  style="font-family:'Marvel', sans-serif; background-color: deepskyblue;" update=":formRemision" />
+                            </p:column>
+                        </p:dataTable>    
+                        <p:commandButton value="Cerrar" onclick="PF('dialogOrden').hide();" style="font-family:'Marvel', sans-serif; background-color: deepskyblue;" />
+                    </p:dialog>
+
+                    <!-- Dialogo Buscar Productos-->
+
+                    <p:dialog id="dlgProductos" widgetVar="dialogProductos" modal="true" resizable="false"
+                              showEffect="explode" hideEffect="explode" >
+
+                        <p:dataTable id="Tproducto" value="#{mbeanTproserv.listaTproserv}" var="p" 
+                                     paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="5,10,15" rows="8" style=" width: 700px; font-family:'Marvel', sans-serif;" emptyMessage="No hay Datos">
+
+                            <p:column headerText="Id Producto" filterBy="#{p.codigo}" filterMatchMode="contains">
+                                <h:outputText value="#{p.codigo}" />
+                            </p:column>
+                            <p:column headerText="Nombre Producto" filterBy="#{p.nombre}" filterMatchMode="contains" >
+                                <h:outputText value="#{p.nombre}" />
+                            </p:column>
+                            <p:column headerText="Tipo">
+                                <h:outputText value="#{p.tcategoria.categoriarepuesto}" />
+                            </p:column>
+                            <p:column headerText="Precio">
+                                <h:outputText value="#{p.precio}" >
+                                    <f:convertNumber type="currency" currencySymbol="$" />
+                                </h:outputText>
+                            </p:column>
+
+                            <p:column headerText="">
+                                <p:commandButton  value="Seleccionar" actionListener="#{mbeanRemision.detalleActRem.setTproserv(p)}" oncomplete="PF('dialogProductos').hide();"
+                                                  style="font-family:'Marvel', sans-serif; background-color: deepskyblue;" update=":formRemision" />
+                            </p:column>
+                        </p:dataTable>    
+                        <p:commandButton value="Cerrar" onclick="PF('dialogProductos').hide();" style="font-family:'Marvel', sans-serif; background-color: deepskyblue;" />
+
+                    </p:dialog>
+
+                    <!--Ver detalle Orden-->
+
+                    <p:dialog id="p" widgetVar="valor" modal="true" showEffect="clip" header="Detalle de la Orden" resizable="false">
+
+                        <p:fieldset>
+                            <p:dataTable value="#{mbeanOrdenes.detalleOrdenListar}" var="op" 
+                                         paginator="true" paginatorPosition="bottom" rows="8" 
+                                         widgetVar="tablaordenes" emptyMessage="No se encuentra el dato consultado"
+                                         style="margin-bottom:20px; font-family:'Marvel', sans-serif;">
+
+                                <p:column headerText="Orden de Pago" style="text-align: center" > 
+                                    <h:outputText value="OP#{op.ordenmaestro.idocabecera}" />
+                                </p:column>
+                                <p:column headerText="Codigo Producto">
+                                    <h:outputText value="#{op.tproserv.codigo}" />
+                                </p:column>
+
+                                <p:column headerText="Producto">
+                                    <h:outputText value="#{op.tproserv.nombre}" />
+                                </p:column>
+
+                                <p:column headerText="Cantidad">
+                                    <h:outputText value="#{op.cantidad}" />
+                                </p:column>
+
+                                <p:column headerText="Valor Unitario" style="text-align: center;" >
+                                    <h:outputText value="#{op.precioUnitario}" >
+                                        <f:convertNumber type="currency" currencySymbol="$" />
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column headerText="Total">
+                                    <h:outputText value="#{op.total}" >
+                                        <f:convertNumber type="currency" currencySymbol="$" />
+                                    </h:outputText>
+                                </p:column>
+
+                            </p:dataTable>  
+                        </p:fieldset>
+
+                    </p:dialog>
+
+
+                </h:form>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

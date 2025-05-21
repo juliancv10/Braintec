@@ -4,35 +4,69 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
+
     <h:head>
-        <title>ORDENES DE PEDIDO</title>
+        <title>ORDENES</title>
     </h:head>
     <h:body>
-        <h:form id="Datos" >
-            <p:fieldset legend=" Datos" toggleable="true">
-                <p:dataTable value="#{ordenpedidombean.listaOrdenPedido}" var="u">
-                    <p:column headerText="Orden Pedido">
-                        <h:outputText value="#{u.idOpedido}" />
+        <h:form>
+            <h:panelGrid columns="2" style="margin-bottom:10px">
+                <p:outputLabel value="Cliente:"/>
+                <p:selectOneListbox id="cliente" value="#{mbeanOrdenes.usuario.numdocumento}" var="us" filter="true"
+                                    filterMatchMode="contains">
+                    <f:selectItems value="#{mbeanOrdenes.usuarios}" var="usuario" itemLabel="#{usuario.nombre}"
+                                   itemValue="#{usuario.numdocumento}"/>
+                    <p:column>
+                        <h:outputText value="#{usuario.nombre}"/>
                     </p:column>
-                    <p:column headerText="Fecha de Pedido">
-                        <h:outputText value="#{u.FPedido}">
-                        <f:convertDateTime pattern="YY-MM-dd"/>
-                        </h:outputText>
+                    <p:column>
+                        <h:outputText value="#{usuario.apellido}"/>
                     </p:column>
-                    <p:column headerText="Cantidad">
-                        <h:outputText value="#{u.cantidadP}" />
-                    </p:column>
-                    <p:column headerText="Repuesto">
-                        <h:outputText value="#{u.refRepuesto.nombreRepuesto}" />
-                    </p:column>
-                    <p:column headerText="Id Cliente">
-                        <h:outputText value="#{u.idCliente.idCliente}" />
-                    </p:column>
-                    <p:column headerText="Prioridad">
-                        <h:outputText value="#{u.idOrdenpag.idOrdenpag}" />
-                    </p:column>
-                </p:dataTable>             
-            </p:fieldset>
+                </p:selectOneListbox>
+            </h:panelGrid>
+
+            <p:separator/>
+
+            <!--<p:commandButton value="Submit" update="display" oncomplete="PF('dlg').show()" icon="pi pi-check" />
+
+            <p:dialog header="Selected Values" modal="true" showEffect="fade" widgetVar="dlg" resizable="false">
+                <p:panelGrid columns="2" id="display" columnClasses="label,output">
+                    <h:outputText value="Basic:" />
+                    <h:outputText value="#{selectOneView.option}" />
+                    <font></font>
+                    <h:outputText value="Advanced:" />
+                    <h:outputText value="#{selectOneView.theme}" />
+                </p:panelGrid><font></font>
+            </p:dialog><font></font>
+
+           <h:form id="DetalleOr" >
+                <p:fieldset  legend="Detalle Orden" toggleable="true">
+                    <p:dataTable id="detalleorden" value="#{mbeanOrdenes.detalleGuardar}" var="do">
+                        <p:column headerText="Id Servicio">
+                            <h:outputText value="#{do.idodetalle}" />
+                        </p:column>
+
+                        <p:column headerText="Codigo">
+                            <h:outputText value="#{do.tservicio}"/>
+                        </p:column>
+
+                        <p:column headerText="Nombre">
+                            <h:outputText value="#{do.tservicio.nombre}"/>
+                        </p:column>
+
+                        <p:column headerText="Total">
+                            <h:outputText value="#{do.tservicio.precio}"/>
+                        </p:column>
+                        <p:column headerText="Id Servicio">
+                            <h:outputText value="#{do.tservicio}" />
+                        </p:column>
+                    </p:dataTable>
+                </p:fieldset>
+            </h:form>
+                      <p:commandButton value="Confirmar" actionListener="#{mbeanOrdenes.guardar()}"/> -->
         </h:form>
     </h:body>
 </html>
+
+
+

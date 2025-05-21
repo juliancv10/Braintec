@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <title>Ordenes de Pago</title> 
+        <h:outputStylesheet name="primeicons/primeicons.css" library="primefaces" /> 
+    </h:head>
+
+
+    <h:body>
+        <h:form id="formu" style="font-family:'Marvel', sans-serif;">
+            <ui:composition template="../WEB-INF/templates/plantilla.xhtml">
+
+                <ui:define name="content">
+                    <div>
+                        <h2 style="text-align: center; padding-top: 1px;" >Ordenes Activas</h2>
+                    </div>
+                    <p:growl id="msj" />
+
+                    <p:dialog widgetVar="valor" modal="true" showEffect="clip" header="Detalle de la Orden" resizable="false">
+                        <h:form id="p">
+                            <p:fieldset>
+                                <p:dataTable value="#{mbeanOrdenes.detalleOrdenListar}" var="op" 
+                                             paginator="true" paginatorPosition="bottom" rows="8" 
+                                             widgetVar="tablaordenes" emptyMessage="No se encuentra el dato consultado"
+                                             style="margin-bottom:20px; font-family:'Marvel', sans-serif;">
+
+                                    <p:column headerText="Orden de Pago" style="text-align: center"> 
+                                        <h:outputText value="OP#{op.ordenmaestro.idocabecera}" />
+                                    </p:column>
+
+                                    <p:column headerText="Producto">
+                                        <h:outputText value="#{op.tproserv.nombre}" />
+                                    </p:column>
+
+                                    <p:column headerText="Cantidad">
+                                        <h:outputText value="#{op.cantidad}" />
+                                    </p:column>
+
+                                    <p:column headerText="Valor Unitario" style="text-align: center;" >
+                                        <h:outputText value="#{op.precioUnitario}" >
+                                            <f:convertNumber type="currency" currencySymbol="$" />
+                                        </h:outputText>
+                                    </p:column>
+
+                                    <p:column headerText="Total">
+                                        <h:outputText value="#{op.total}" >
+                                            <f:convertNumber type="currency" currencySymbol="$" />
+                                        </h:outputText>
+                                    </p:column>
+
+                                    <p:column headerText="Acciones">
+                                        <p:commandButton value="Cancelar Ítem" actionListener="#{mbeanOrdenes.eliminarItem(op)}" style="background-color: deepskyblue; font-family:'Marvel', sans-serif;"
+                                                         update=":Datos :p" >
+                                            <p:confirm header="AVISO!!!" message="Esta Seguro de Cancelar este Ítem?, esta Acción no tiene retroceso" 
+                                                       icon="pi pi-exclamation-triangle" />
+                                        </p:commandButton>
+
+                                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" style="font-family:'Marvel', sans-serif;">
+                                            <p:commandButton value="SI" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" style="font-family:'Marvel', sans-serif; background-color: deepskyblue;" />
+                                            <p:commandButton value="NO" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" style="font-family:'Marvel', sans-serif; background-color: deepskyblue;"/>
+                                        </p:confirmDialog>
+                                    </p:column>                 
+                                </p:dataTable>  
+                            </p:fieldset>
+                        </h:form>
+                    </p:dialog>
+
+                    <h:form id="Datos" style="padding-top: 10px;">
+                        <p:fieldset>
+
+                            <p:dataTable value="#{mbeanOrdenes.listaOrdenM}" var="od" 
+                                         paginator="true" paginatorPosition="bottom" rows="8" 
+                                         widgetVar="tablaordendet" emptyMessage="No se encuentra el dato consultado"
+                                         style="margin-bottom:20px; font-family:'Marvel', sans-serif; text-align: center;">
+
+                                <p:column headerText="Orden de Pago" >
+                                    <h:outputText value="OP#{od.idocabecera}"  />
+                                </p:column>
+
+                                <p:column headerText="Fecha">
+                                    <h:outputText value="#{od.fecha}" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy hh:mm a" />
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column headerText="Estado">
+                                    <h:outputText value="#{od.activo}" />
+                                </p:column>
+
+                                <p:column headerText="Cliente" >
+                                    <h:outputText style="text-align: left;" value="#{od.tusuario.numdocumento} #{od.tusuario.nombre} #{od.tusuario.apellido}" />
+                                </p:column>
+
+                                <p:column headerText="Valor Total">
+                                    <h:outputText value="#{od.monto}" >
+                                        <f:convertNumber type="currency" currencySymbol="$" />
+                                    </h:outputText>
+                                </p:column>
+                                
+                                <!--<p:column headerText="Remision" >
+                                    <h:outputText style="text-align: left;" value="#{od.estrem}" />
+                                </p:column>-->
+
+                                <p:column headerText="Detalle de la Orden">
+                                    <p:commandButton value="Ver detalle" actionListener="#{mbeanOrdenes.listardetop(od)}"
+                                                     update=":p" oncomplete="PF('valor').show()" style="font-family:'Marvel', sans-serif; background-color: deepskyblue;"/>
+                                </p:column>
+
+                                <p:column headerText="Acciones" >
+                                    <p:commandButton value="Cancelar Orden" actionListener="#{mbeanOrdenes.eliminarOM(od)}"
+                                                     update=":Datos, :msj" style="font-family:'Marvel', sans-serif; background-color: deepskyblue;">
+                                        <p:confirm header="AVISO!!!" message="Esta Seguro de Cancelar esta Orden?, esta Acción no tiene retroceso" 
+                                                   icon="pi pi-exclamation-triangle" />
+                                    </p:commandButton>
+
+                                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" style="font-family:'Marvel', sans-serif;">
+                                        <p:commandButton value="SI" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" style="font-family:'Marvel', sans-serif; background-color: deepskyblue;"/>
+                                        <p:commandButton value="NO" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" style="font-family:'Marvel', sans-serif; background-color: deepskyblue;"/>
+                                    </p:confirmDialog>
+                                </p:column>
+                            </p:dataTable>
+
+                        </p:fieldset>
+                    </h:form>
+                </ui:define>
+
+            </ui:composition>
+        </h:form>
+    </h:body>
+</html>

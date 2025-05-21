@@ -23,8 +23,8 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean
 @SessionScoped
-public class mbeanTvehiculo implements Serializable{
-    
+public class mbeanTvehiculo implements Serializable {
+
     @EJB
     private TvehiculoFacadeLocal tvehiculoFacade;
     private List<Tvehiculo> listaTvehiculo;
@@ -56,21 +56,21 @@ public class mbeanTvehiculo implements Serializable{
     public void setTusuario(Tusuario tusuario) {
         this.tusuario = tusuario;
     }
-    
+
     @PostConstruct
-    public void init(){
+    public void init() {
         this.tvehiculo = new Tvehiculo();
         this.tusuario = new Tusuario();
     }
-    
+
     public void guardar(){
         try {
             this.tvehiculo.setTusuario(tusuario);
             this.tvehiculoFacade.create(tvehiculo);
-            this.msj ="Registro creado correctamente";
+            this.msj = "Registro creado correctamente";
             this.tusuario = new Tusuario();
             this.tvehiculo = new Tvehiculo();
-            
+
         } catch (Exception e) {
             e.printStackTrace();
             this.msj = "Error" + e.getMessage();
@@ -78,15 +78,15 @@ public class mbeanTvehiculo implements Serializable{
         FacesMessage mensaje = new FacesMessage(this.msj);
         FacesContext.getCurrentInstance().addMessage(null, mensaje);
     }
-    
-    public void actualizar(){
+
+    public void actualizar() {
         try {
             this.tvehiculo.setTusuario(tusuario);
             this.tvehiculoFacade.edit(tvehiculo);
-            this.msj ="Registro Actualizado correctamente";
+            this.msj = "Registro Actualizado correctamente";
             this.tusuario = new Tusuario();
             this.tvehiculo = new Tvehiculo();
-            
+
         } catch (Exception e) {
             e.printStackTrace();
             this.msj = "Error" + e.getMessage();
@@ -94,25 +94,25 @@ public class mbeanTvehiculo implements Serializable{
         FacesMessage mensaje = new FacesMessage(this.msj);
         FacesContext.getCurrentInstance().addMessage(null, mensaje);
     }
-    
-    public void eliminar(Tvehiculo eli){
+
+    public void eliminar(Tvehiculo eli) {
         try {
-           this.tvehiculoFacade.remove(eli);
-           this.msj = "Registro Eliminado Correctamente";
+            this.tvehiculoFacade.remove(eli);
+            this.msj = "Registro Eliminado Correctamente";
         } catch (Exception e) {
             e.printStackTrace();
-            this.msj ="Error" + e.getMessage();
+            this.msj = "Error" + e.getMessage();
         }
         FacesMessage mensaje = new FacesMessage(this.msj);
         FacesContext.getCurrentInstance().addMessage(null, mensaje);
     }
-    
-    public void editardatos(Tvehiculo ed){
+
+    public void editardatos(Tvehiculo ed) {
         this.tusuario.setNumdocumento(ed.getTusuario().getNumdocumento());
         this.tvehiculo = ed;
     }
-    
-    public void limpiar(){
+
+    public void limpiar() {
         this.tusuario = new Tusuario();
         this.tvehiculo = new Tvehiculo();
     }

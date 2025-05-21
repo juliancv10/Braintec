@@ -9,21 +9,21 @@
     <h:body>
         <h:form id="Datos" >
             <p:fieldset legend=" Datos" toggleable="true">
-                <p:dataTable value="#{tproveedormbean.listaTProveedor}" var="u">
+                <p:dataTable value="#{mbeanTproveedor.listaTproveedor}" var="u">
                     <p:column headerText="Id Proveedor">
-                        <h:outputText value="#{u.idProveedor}" />
+                        <h:outputText value="#{u.idproveedor}"/>
                     </p:column>
                     <p:column headerText="Razon Social">
-                        <h:outputText value="#{u.rsocialProveedor}" />
+                        <h:outputText value="#{u.rsocialproveedor}"/>
                     </p:column>
                     <p:column headerText="Persona Contacto">
-                        <h:outputText value="#{u.percontactoProveedor}" />
+                        <h:outputText value="#{u.percontactoproveedor}"/>
                     </p:column>
                     <p:column headerText="Telefono">
-                        <h:outputText value="#{u.telefonoProveedor}" />
+                        <h:outputText value="#{u.telefonoproveedor}"/>
                     </p:column>
                     <p:column headerText="Correo">
-                        <h:outputText value="#{u.correoProveedor}" />
+                        <h:outputText value="#{u.correoproveedor}"/>
                     </p:column>
                 </p:dataTable>             
             </p:fieldset>

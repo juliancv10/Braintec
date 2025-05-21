@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+        <ui:composition template="./../WEB-INF/templates/plantilla.xhtml">
+
+            <ui:define name="content">
+                <p:growl id="msj" />
+                <h:form id="p" style="margin: 2%;" >
+
+                    <p:panelGrid columns="2" style=" background-color: #0099CC">
+
+                        <p:fieldset legend="Agregar datos" toggleable="true" style="background-color: #238276; border-color:#000; height: 10%">
+                            <p:commandButton value="Nuevo pedido" oncomplete="PF('valor').show();"/>
+                        </p:fieldset>
+                        <img src="../resources/img/Mecanico2.png" alt="" width="30%" style="border-radius: 50%; margin-left:30%"/>
+                    </p:panelGrid>
+                </h:form >
+                <p:dialog widgetVar="valor" modal="true" showEffect="clip" header="Nuevo pedido" resizable="false">
+                    <p:ajax event="close" listener="#{mbeanOrdenpedido.limpiar()}" update=":p"/>
+                    <h:form id="save" >
+                        <p:panelGrid columns="2">
+                            <p:outputLabel value="Id Pedido"/>
+                            <p:inputText value="#{mbeanOrdenpedido.ordenpedido.idopedido}"/>
+
+                            <p:outputLabel value="Fecha Del Pedido"/>
+                            <p:calendar value="#{mbeanOrdenpedido.ordenpedido.fpedido}"/>
+
+                            <p:outputLabel value="Documento cliente"/>
+                                <p:selectOneMenu   style="width: 100%;" value="#{mbeanTusuario.tusuario.nombre}">
+                                    <f:selectItems value="#{mbeanTusuario.listaTusuario}" var="u"
+                                                   itemValue="#{u.nombre}" itemLabel="#{u.numdocumento} #{u.nombre} #{u.apellido} "/>
+                                </p:selectOneMenu>
+
+                            <p:outputLabel value="Tipo de repuesto"/>
+                                <p:selectOneMenu   style="width: 100%;" value="#{mbeanTinventario.tinventario.refrepuesto}">
+                                    <f:selectItems value="#{mbeanTinventario.listaTinventario}" var="d"
+                                                   itemValue="#{d.refrepuesto}" itemLabel="#{d.refrepuesto} #{d.nombrerepuesto}"/>
+                                </p:selectOneMenu>
+
+                            <p:outputLabel value="Estado Del Pedido"/>
+                            <p:inputText value="#{mbeanOrdenpedido.ordenpedido.estadoordenped}"/>
+
+                            <p:commandButton value="Guardar" actionListener="#{mbeanOrdenpedido.guardar()}" oncomplete="PF('valor').hide();"
+                                             rendered="#{mbeanOrdenpedido.ordenpedido.idopedido ==0}"
+                                             update=":Datos :p :msj" />
+
+                            <p:commandButton value="Actualizar" actionListener="#{mbeanOrdenpedido.actualizar()}" oncomplete="PF('valor').hide();"
+                                             rendered="#{mbeanOrdenpedido.ordenpedido.idopedido !=0}"
+                                             update=":Datos save :msj"/>
+
+                        </p:panelGrid>
+                    </h:form>
+                </p:dialog>
+
+                <h:form id="Datos" style="background-color: #238276; border-color:#000; height: 10%" >
+                    <p:fieldset legend=" Datos" toggleable="true" style="background-color: #0099CC; border-color:#000">
+                        <p:dataTable value="#{mbeanOrdenpedido.listaOrdenpedido}" var="u">
+
+                            <p:column headerText="Id Pedido" filterBy="#{u.idopedido}" filterMatchMode="contains">
+                                <h:outputText value="#{u.idopedido}"  />
+                            </p:column>
+                            <p:column headerText="Fecha Del Pedido" filterBy="#{u.fpedido}" filterMatchMode="contains">
+                                <h:outputText value="#{u.fpedido}" >
+                                    <f:convertDateTime pattern="YY-MM-dd"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="Documento Cliente" filterBy="#{u.tusuario.numdocumento}" filterMatchMode="contains">
+                                <h:outputText value="#{u.tusuario.numdocumento}"/>
+                            </p:column>
+                            <p:column headerText="Tipo De Repuesto" filterBy="#{u.tinventario.refrepuesto}" filterMatchMode="contains">
+                                <h:outputText value="#{u.tinventario.refrepuesto}" />
+                            </p:column>
+                            <p:column headerText="Estado Del Pedido" filterBy="#{u.estadoordenped.idestordenped}" filterMatchMode="contains">
+                                <h:outputText value="#{u.estadoordenped.idestordenped}" />
+                            </p:column>
+
+                            <p:column headerText="Editar" width="100">
+                                <p:commandButton value="Editar" actionListener="#{mbeanOrdenpedido.editardatos(u)}" 
+                                                 update=":save" oncomplete="PF('valor').show();"
+                                                 style="background-color: #238276 ;border-color:#000; color: black"/>
+                            </p:column>
+                        </p:dataTable>             
+                    </p:fieldset>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

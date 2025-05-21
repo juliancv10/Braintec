@@ -31,4 +31,5 @@ public interface TempleadoFacadeLocal {
     int count();
     
     Templeado iniciarSesion(Templeado us);
+
 }

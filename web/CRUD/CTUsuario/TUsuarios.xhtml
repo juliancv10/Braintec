@@ -5,7 +5,7 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>USUARIOS</title>
+        <title>TUSUARIOS</title>
     </h:head>
     <h:body>
         <p:growl id="msj" />
@@ -37,9 +37,11 @@
                         <f:selectItems value="#{mbeanTdocumento.listaTdocumento}" var="d"
                                        itemValue="#{d.iddocumento}" itemLabel="#{d.tipodocumento}"/>
                     </p:selectOneMenu>
+
                     <p:commandButton value="Guardar" actionListener="#{mbeanTusuario.guardar()}" oncomplete="PF('valor').hide();"
                                      rendered="#{mbeanTusuario.tusuario.numdocumento ==0}"
-                                     update=":Datos p :msj"/> 
+                                     update=":Datos p :msj"/>
+
                     <p:commandButton value="Actualizar" actionListener="#{mbeanTusuario.actualizar()}" oncomplete="PF('valor').hide();"
                                      rendered="#{mbeanTusuario.tusuario.numdocumento !=0}"
                                      update=":Datos p :msj"/> 
@@ -59,7 +61,7 @@
                     <p:column headerText="#Documento" filterBy="#{u.numdocumento}" filterMatchMode="contains">
                         <h:outputText value="#{u.numdocumento}" />
                     </p:column>
-                    <p:column headerText="Tipo de Doc" filterBy="#{u.tdocumento.tipodocumento}" filterMatchMode="contains">
+                    <p:column filterBy="#{u.tdocumento.tipodocumento}" filterMatchMode="contains">
                         <h:outputText value="#{u.tdocumento.tipodocumento}" />
                     </p:column>
                     <p:column headerText="Nombres" filterBy="#{u.nombre}" filterMatchMode="contains">

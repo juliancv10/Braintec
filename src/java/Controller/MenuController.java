@@ -85,4 +85,9 @@ public class MenuController implements Serializable {
     public void cerrarSesion(){
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
     }
+
+    public String mostrarUsuarioLogeado() {
+        Templeado us = (Templeado) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("templeado");
+        return " " + us.getTusuario().getNombre() + " " + us.getTusuario().getApellido();
+    }
 }

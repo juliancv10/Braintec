@@ -1,0 +1,199 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+
+    <h:body>
+        <h:form>
+            <ui:composition template="./../WEB-INF/templates/plantilla.xhtml">
+
+                <ui:define name="content">
+                    <div>
+                        <h2 style="text-align: center">Vehiculos</h2>
+                    </div>
+                    <p:growl id="msj" />
+
+                    <h:form id="nuevo">
+                        <div style="padding-bottom: 10px;">
+                            <p:commandButton value="Registrar Nuevo Vehiculo" oncomplete="PF('valor').show();" style="background-color: deepskyblue; font-family:'Marvel', sans-serif; font-size: 1.4em;"/> 
+                        </div>
+                    </h:form >
+                    <!--REGISTRAR NUEVOS VEHICULOS-->
+                    <p:dialog widgetVar="valor" modal="true" showEffect="clip" header="Formulario de Registro" resizable="false" style="font-family:'Marvel', sans-serif; width:500px; font-size: 20px;">
+                        <p:ajax event="close" listener="#{mbeanTvehiculo.limpiar()}" update=":p"/>
+                        <h:form id="p">
+                            
+                            <p:panelGrid columns="2" style="font-family:'Marvel', sans-serif; width: 500px ;">
+                                
+                                <p:outputLabel value="Placa Vehículo" style="font-family:'Marvel', sans-serif;"/>
+                                <p:inputText value="#{mbeanTvehiculo.tvehiculo.placavehiculo}" required="true" style="font-family:'Marvel', sans-serif;"/>
+                                
+                                <p:outputLabel value="Marca Vehículo" style="font-family:'Marvel', sans-serif;"/>
+                                <p:inputText value="#{mbeanTvehiculo.tvehiculo.marcavehiculo}" required="true" style="font-family:'Marvel', sans-serif;"/>
+                                
+                                <p:outputLabel value="Modelo Vehículo" style="font-family:'Marvel', sans-serif;"/>
+                                <p:inputText value="#{mbeanTvehiculo.tvehiculo.modelovehiculo}" required="true" style="font-family:'Marvel', sans-serif;"/>
+                               
+                                <p:outputLabel value="Cilindraje Vehículo" style="font-family:'Marvel', sans-serif;"/>
+                                <p:inputText value="#{mbeanTvehiculo.tvehiculo.cilindrajevehiculo}" required="true" style="font-family:'Marvel', sans-serif;"/>
+                                
+                                <p:outputLabel value="Kilometraje Actual" style="font-family:'Marvel', sans-serif;"/>
+                                <p:inputText value="#{mbeanTvehiculo.tvehiculo.kilometrajevehiculo}" required="true" style="font-family:'Marvel', sans-serif;"/>
+                                
+                                <p:outputLabel value="Transmision" style="font-family:'Marvel', sans-serif;"/>
+                                <p:selectOneRadio id="rdbtrm" value="#{mbeanTvehiculo.tvehiculo.trasmisionvehiculo}" required="true">
+                                    <f:selectItem itemValue="Manual" itemLabel="Manual"/>
+                                    <f:selectItem itemValue="Automatica" itemLabel="Automatica"/>
+                                </p:selectOneRadio>
+
+                                <p:outputLabel value="Año" style="font-family:'Marvel', sans-serif;"/>
+                                <p:inputText value="#{mbeanTvehiculo.tvehiculo.aniovehiculo}" style="font-family:'Marvel', sans-serif;"/>
+                                
+                                <p:outputLabel value="Propietario" style="font-family:'Marvel', sans-serif;"/>
+                                <p:selectOneMenu value="#{mbeanTvehiculo.tusuario.numdocumento}" style="font-family:'Marvel', sans-serif;" filter="true" filterMatchMode="contains">
+                                    <f:selectItems value="#{mbeanTusuario.listaTusuario}" var="u"
+                                                   itemValue="#{u.numdocumento}" itemLabel="#{u.numdocumento} #{u.nombre} #{u.apellido}" />
+                                </p:selectOneMenu>
+
+                                <p:commandButton value="Guardar" actionListener="#{mbeanTvehiculo.guardar()}" oncomplete="PF('valor').hide();"
+                                                 rendered="#{mbeanTvehiculo.tvehiculo.placavehiculo == null}"
+                                                 update=":Datos p :msj" style="font-family:'Marvel', sans-serif;"/> 
+
+                                <p:commandButton value="Actualizar" actionListener="#{mbeanTvehiculo.actualizar()}" oncomplete="PF('valor').hide();"
+                                                 rendered="#{mbeanTvehiculo.tvehiculo.placavehiculo != null}"
+                                                 update=":Datos p :msj" style="font-family:'Marvel', sans-serif;"/> 
+
+                            </p:panelGrid>
+                        </h:form>
+                    </p:dialog>
+                    
+                     <!--MODIFICAR VEHICULOS-->
+                    <p:dialog widgetVar="modveh" modal="true" showEffect="clip" header="Formulario de Registro" resizable="false" style="font-family:'Marvel', sans-serif; width:500px; font-size: 20px;">
+                        <p:ajax event="close" listener="#{mbeanTvehiculo.limpiar()}" update=":j"/>
+                        <h:form id="j">
+                            
+                            <p:panelGrid columns="2" style="font-family:'Marvel', sans-serif; width: 500px ;">
+                                
+                                <p:outputLabel value="Placa Vehículo" style="font-family:'Marvel', sans-serif;"/>
+                                <p:outputLabel value="#{mbeanTvehiculo.tvehiculo.placavehiculo}" style="font-family:'Marvel', sans-serif;"/>
+                                
+                                <p:outputLabel value="Marca Vehículo" style="font-family:'Marvel', sans-serif;"/>
+                                <p:inputText value="#{mbeanTvehiculo.tvehiculo.marcavehiculo}" required="true" style="font-family:'Marvel', sans-serif;"/>
+                                
+                                <p:outputLabel value="Modelo Vehículo" style="font-family:'Marvel', sans-serif;"/>
+                                <p:inputText value="#{mbeanTvehiculo.tvehiculo.modelovehiculo}" required="true" style="font-family:'Marvel', sans-serif;"/>
+                               
+                                <p:outputLabel value="Cilindraje Vehículo" style="font-family:'Marvel', sans-serif;"/>
+                                <p:inputText value="#{mbeanTvehiculo.tvehiculo.cilindrajevehiculo}" required="true" style="font-family:'Marvel', sans-serif;"/>
+                                
+                                <p:outputLabel value="Kilometraje Actual" style="font-family:'Marvel', sans-serif;"/>
+                                <p:inputText value="#{mbeanTvehiculo.tvehiculo.kilometrajevehiculo}" required="true" style="font-family:'Marvel', sans-serif;"/>
+                                
+                                <p:outputLabel value="Transmision" style="font-family:'Marvel', sans-serif;"/>
+                                <p:selectOneRadio id="rdbtrm" value="#{mbeanTvehiculo.tvehiculo.trasmisionvehiculo}" required="true" style="font-family:'Marvel', sans-serif;">
+                                    <f:selectItem itemValue="Manual" itemLabel="Manual" />
+                                    <f:selectItem itemValue="Automatica" itemLabel="Automática"/>
+                                </p:selectOneRadio>
+
+                                <p:outputLabel value="Año" style="font-family:'Marvel', sans-serif;"/>
+                                <p:inputText value="#{mbeanTvehiculo.tvehiculo.aniovehiculo}" style="font-family:'Marvel', sans-serif;"/>
+                                
+                                <p:outputLabel value="Propietario" style="font-family:'Marvel', sans-serif;"/>
+                                <p:selectOneMenu value="#{mbeanTvehiculo.tusuario.numdocumento}" style="font-family:'Marvel', sans-serif;" filter="true" filterMatchMode="contains">
+                                    <f:selectItem itemLabel="Seleccione propietario" />
+                                    <f:selectItems value="#{mbeanTusuario.listaTusuario}" var="u"
+                                                   itemValue="#{u.numdocumento}" itemLabel="#{u.numdocumento} #{u.nombre} #{u.apellido}" />
+                                </p:selectOneMenu>
+
+                                <p:commandButton value="Actualizar" actionListener="#{mbeanTvehiculo.actualizar()}" oncomplete="PF('modveh').hide();"
+                                                 rendered="#{mbeanTvehiculo.tvehiculo.placavehiculo != null}"
+                                                 update=":Datos j :msj" style="font-family:'Marvel', sans-serif;"/> 
+
+                            </p:panelGrid>
+                        </h:form>
+                    </p:dialog>
+                    <style type="text/css">
+                        .ui-paginator a {
+                            margin-right: 5px;
+                        }
+                    </style>
+                    <h:form id="Datos">
+                        <p:dataTable value="#{mbeanTvehiculo.listaTvehiculo}" var="v" 
+                                     paginator="true" paginatorPosition="bottom" rows="8" 
+                                     widgetVar="tablavehiculos" emptyMessage="No se encuentra el dato consultado"
+                                     style="margin-bottom:20px; font-family:'Marvel', sans-serif;">
+
+                            <f:facet name="header">
+                                <p:outputPanel style="height: 25px" >
+                                    <h:outputText value="Vehículos Registrados" style="font-family:'Marvel', sans-serif;" />
+
+                                </p:outputPanel>
+                            </f:facet>
+
+                            <!--<f:facet name="{Exporters}">
+                                <div style="float:right;padding-top: 5px;">
+                                    <h:commandLink>
+                                        <p:graphicImage name="../resources/img/excel.png" width="24"/>
+                                        <p:dataExporter type="xls" target="Tusuario" fileName="ExcelUsuarios"/>
+                                    </h:commandLink> 
+                                </div>
+                            </f:facet>-->
+
+                            <p:column filterBy="#{v.placavehiculo}" filterMatchMode="contains" headerText="Placa Vehículo" style="text-align: center;">
+                                <h:outputText value="#{v.placavehiculo}"/>
+                            </p:column>
+                            <p:column headerText="Marca Vehículo">
+                                <h:outputText value="#{v.marcavehiculo}" />
+                            </p:column>
+                            <p:column headerText="Modelo Vehículo" >
+                                <h:outputText value="#{v.modelovehiculo}" />
+                            </p:column>
+                            <p:column headerText="Cilindraje Vehículo" >
+                                <h:outputText value="#{v.cilindrajevehiculo}" />
+                            </p:column>
+                            <p:column headerText="Km Registrado"  >
+                                <h:outputText value="#{v.kilometrajevehiculo}" />
+                            </p:column>
+                            <p:column headerText="Trasmisión"  >
+                                <h:outputText value="#{v.trasmisionvehiculo}" />
+                            </p:column>
+                            <p:column headerText="Año" >
+                                <h:outputText value="#{v.aniovehiculo}" />
+                            </p:column>
+                            
+                            <p:column headerText="Propietario">
+                                <h:outputText value="#{v.tusuario.nombre} #{v.tusuario.apellido}" />
+                            </p:column>
+                            
+                            <!--<p:column headerText="Eliminar" style="text-align: center;" >
+                                <p:commandButton value="Eliminar" actionListener="#{mbeanTvehiculo.eliminar(v)}" style="font-family:'Marvel', sans-serif;"
+                                                 update=":Datos :msj" />
+                            </p:column>-->
+                            
+                            <p:column headerText="Acciones" style="text-align: center;" exportable="false" >
+                                <p:commandButton value="Editar" actionListener="#{mbeanTvehiculo.editardatos(v)}" style="font-family:'Marvel', sans-serif;" 
+                                                 update=":j" oncomplete="PF('modveh').show();"/>
+                            </p:column>
+                        </p:dataTable>             
+                        <h:commandLink value="Exportar a Pdf">
+                            <h:graphicImage url="../resources/img/icono-pdf.png" style="width: 23px; height: 23px; text-align: right;" />
+                            <p:dataExporter type="pdf" target="tablavehiculos" fileName="PdfVehiculos"/> 
+                        </h:commandLink>
+                        <h:commandLink value="Exportar a Excel">
+                            <h:graphicImage url="../resources/img/icono excel.png" style="width: 25px; height: 25px; text-align: right;"/>
+                            <p:dataExporter type="xls" target="tablavehiculos" fileName="XlsVehiculos"/> 
+                        </h:commandLink>
+                    </h:form>  
+                </ui:define>
+
+            </ui:composition>
+        </h:form>
+    </h:body>
+</html>

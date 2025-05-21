@@ -1,0 +1,14 @@
+@import url('https://fonts.googleapis.com/css?family=Marvel&display=swap');
+*{
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+/* Clases Especiales*/
+.borde{
+	border: 1px solid gray;
+}
+/* Contenedor*/
+p {
+    font-family:'Marvel', sans-serif;
+}

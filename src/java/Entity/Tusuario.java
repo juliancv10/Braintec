@@ -6,12 +6,14 @@
 package Entity;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
 
 /**
  *
@@ -23,26 +25,26 @@ public class Tusuario implements Serializable{
     
     @Id
     @Column(name = "numdocumento")
-    private int numdocumento;
+    private Integer numdocumento;
     @Column(name ="nombre")
     private String nombre;
     @Column(name = "apellido")
     private String apellido;
     @Column(name = "telefono")
-    private long telefono;
+    private Long telefono;
     @Column(name = "direccion")
     private String direccion;
     @Column(name = "correo")
     private String correo;
-    @ManyToOne 
+    @ManyToOne
     @JoinColumn(name = "iddocumento")
     private Tdocumento tdocumento;
 
-    public int getNumdocumento() {
+    public Integer getNumdocumento() {
         return numdocumento;
     }
 
-    public void setNumdocumento(int numdocumento) {
+    public void setNumdocumento(Integer numdocumento) {
         this.numdocumento = numdocumento;
     }
 
@@ -62,11 +64,11 @@ public class Tusuario implements Serializable{
         this.apellido = apellido;
     }
 
-    public long getTelefono() {
+    public Long getTelefono() {
         return telefono;
     }
 
-    public void setTelefono(long telefono) {
+    public void setTelefono(Long telefono) {
         this.telefono = telefono;
     }
 
@@ -97,7 +99,7 @@ public class Tusuario implements Serializable{
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 43 * hash + this.numdocumento;
+        hash = 59 * hash + Objects.hashCode(this.numdocumento);
         return hash;
     }
 
@@ -113,7 +115,7 @@ public class Tusuario implements Serializable{
             return false;
         }
         final Tusuario other = (Tusuario) obj;
-        if (this.numdocumento != other.numdocumento) {
+        if (!Objects.equals(this.numdocumento, other.numdocumento)) {
             return false;
         }
         return true;
@@ -123,6 +125,5 @@ public class Tusuario implements Serializable{
     public String toString() {
         return "Tusuario{" + "numdocumento=" + numdocumento + '}';
     }
-
     
 }

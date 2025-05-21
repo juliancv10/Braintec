@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="BraintecPro">
+    <output-path>$PROJECT_DIR$/out/artifacts/BraintecPro</output-path>
+    <root id="root">
+      <element id="file-copy" path="$PROJECT_DIR$/dist/BraintecPro.war" />
+    </root>
+  </artifact>
+</component>

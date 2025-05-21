@@ -6,9 +6,15 @@
 package EJB;
 
 import Entity.Tdocumento;
+import Entity.Tdocumento_;
+
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 /**
  *
@@ -28,5 +34,20 @@ public class TdocumentoFacade extends AbstractFacade<Tdocumento> implements Tdoc
     public TdocumentoFacade() {
         super(Tdocumento.class);
     }
-    
+
+    @Override
+    public Tdocumento buscar(String nombre) {
+
+        CriteriaBuilder qb = em.getCriteriaBuilder();
+        CriteriaQuery<Tdocumento> query = qb.createQuery(Tdocumento.class);
+        Root<Tdocumento> entidad = query.from(Tdocumento.class);
+        query.where(
+                qb.equal(entidad.get(Tdocumento_.tipodocumento), nombre)
+        );
+        // query.orderBy(qb.asc(cab.get(Tracabventas_.fecregistro)));
+        List<Tdocumento> result = em.createQuery(query).getResultList();
+        return result.isEmpty() ? null : result.get(0);
+
+    }
+
 }

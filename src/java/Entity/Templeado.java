@@ -38,9 +38,6 @@ public class Templeado implements Serializable{
     @Temporal(TemporalType.DATE)
     @Column(name = "fcreacion")
     private Date fcreacion;
-    @Temporal(TemporalType.DATE)
-    @Column(name = "fultimoacceso")
-    private Date fultimoacceso;
     @ManyToOne
     @JoinColumn(name = "numdocumento")
     private Tusuario tusuario;
@@ -89,14 +86,6 @@ public class Templeado implements Serializable{
 
     public void setFcreacion(Date fcreacion) {
         this.fcreacion = fcreacion;
-    }
-
-    public Date getFultimoacceso() {
-        return fultimoacceso;
-    }
-
-    public void setFultimoacceso(Date fultimoacceso) {
-        this.fultimoacceso = fultimoacceso;
     }
 
     public Tusuario getTusuario() {

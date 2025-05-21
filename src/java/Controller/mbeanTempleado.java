@@ -1,4 +1,4 @@
- /*
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -11,6 +11,7 @@ import Entity.Templeado;
 import Entity.Troles;
 import Entity.Tusuario;
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -23,7 +24,7 @@ import javax.faces.context.FacesContext;
  *
  * @author Julian Camilo
  */
-@ManagedBean
+@ManagedBean(name = "mbeanTempleado")
 @SessionScoped
 public class mbeanTempleado implements Serializable {
 
@@ -34,6 +35,12 @@ public class mbeanTempleado implements Serializable {
     private Tusuario tusuario;
     private Troles troles;
     private Estadousuarioemp estadousuarioemp;
+    private String msj;
+
+    public mbeanTempleado() {
+        templeado = new Templeado();
+        tusuario = new Tusuario();
+    }
 
     public List<Templeado> getListaTempleado() {
         this.listaTempleado = this.templeadoFacade.findAll();
@@ -83,21 +90,87 @@ public class mbeanTempleado implements Serializable {
         this.troles = new Troles();
         this.estadousuarioemp = new Estadousuarioemp();
     }
-    public String iniciarSesion(){
-        Templeado us ;
+
+    public String iniciarSesion() {
+        Templeado us;
         String redireccion = null;
-        try{
+        try {
             us = templeadoFacade.iniciarSesion(templeado);
-            if(us!=null){
+            if (us != null) {
                 FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("templeado", us);
                 redireccion = "/protegido/principal?faces-redirect=true";
-                
-            }else{
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "Credencial incorrecta"));              
+
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "Credencial incorrecta"));
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Aviso", "Error"));
         }
         return redireccion;
+    }
+
+    public void guardar() {
+        try {
+            this.templeado.setTusuario(tusuario);
+            this.templeado.setTroles(troles);
+            this.templeado.setEstadousuarioemp(estadousuarioemp);
+            templeado.setFcreacion(Calendar.getInstance().getTime());
+            this.templeadoFacade.create(templeado);
+            this.msj = "Registro creado correctamente";
+            this.templeado = new Templeado();
+            this.tusuario = new Tusuario();
+            this.troles = new Troles();
+            this.estadousuarioemp = new Estadousuarioemp();
+        } catch (Exception e) {
+            e.printStackTrace();
+            this.msj = "Error" + e.getMessage();
+        }
+        FacesMessage mensaje = new FacesMessage(this.msj);
+        FacesContext.getCurrentInstance().addMessage(null, mensaje);
+    }
+
+    public void actualizar() {
+        try {
+            this.templeado.setTusuario(tusuario);
+            this.templeado.setTroles(troles);
+            this.templeado.setEstadousuarioemp(estadousuarioemp);
+            this.templeadoFacade.edit(templeado);
+            this.msj = "Registro Actualizado correctamente";
+            this.templeado = new Templeado();
+            this.tusuario = new Tusuario();
+            this.troles = new Troles();
+            this.estadousuarioemp = new Estadousuarioemp();
+        } catch (Exception e) {
+            e.printStackTrace();
+            this.msj = "Error" + e.getMessage();
+        }
+        FacesMessage mensaje = new FacesMessage(this.msj);
+        FacesContext.getCurrentInstance().addMessage(null, mensaje);
+    }
+
+    public void eliminar(Templeado eli) {
+        try {
+            this.templeadoFacade.remove(eli);
+            this.msj = "Registro Eliminado Correctamente";
+        } catch (Exception e) {
+            e.printStackTrace();
+            this.msj = "Error" + e.getMessage();
+        }
+        FacesMessage mensaje = new FacesMessage(this.msj);
+        FacesContext.getCurrentInstance().addMessage(null, mensaje);
+    }
+
+    public void editardatos(Templeado ed) {
+        this.tusuario.setNumdocumento(ed.getTusuario().getNumdocumento());
+        this.troles.setIdroles(ed.getTroles().getIdroles());
+        this.estadousuarioemp.setIdestadou(ed.getEstadousuarioemp().getIdestadou());
+        this.templeado = ed;
+    }
+
+    public void limpiar() {
+        this.templeado = new Templeado();
+        this.tusuario = new Tusuario();
+        this.troles = new Troles();
+        this.estadousuarioemp = new Estadousuarioemp();
     }
 }

@@ -1,48 +1,66 @@
 <?xml version='1.0' encoding='UTF-8' ?> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
+<html xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      lang="es"
+      xmlns="http://www.w3.org/1999/xhtml">
 
     <h:head>
+        <meta name="viewport" content="width=device-width"/>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <h:outputStylesheet name="./css/default.css"/>
-        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <link href="../../resources/css/EstiloPlantilla.css" rel="stylesheet" type="text/css"/>
+        <link rel="shortcut  icon" href="../../resources/img/logobraintec.png"/>
         <title>Facelets Template</title>
         <f:event type="preRenderView" listener="#{plantillaController.verificarSesion()}"/>
     </h:head>
 
-    <h:body>
+    <h:body style="background-image: url(../..//resources/img/Braintec2.png); background-repeat: no-repeat; background-position: center;">
 
-        <div id="top">
-            <ui:insert name="top">
-                <h:form>
-                    <p:menubar>
-                        <f:facet name="options">
-                            <p:commandButton actionListener="#{menuController.cerrarSesion()}" value="Cerrar Sesión" action="/Login?faces-redirect=true"/>  
-                        </f:facet>
-                    </p:menubar>
-                </h:form>
-            </ui:insert>
-        </div>
-        <div>
-            <div id="left">
+        <nav>
+            <h:form>
+                <div class="borde nav1">
+                    <img src="../../resources/img/logobraintec.png" alt="logosistema" title="Logo Braintec"/>
+                </div>
+
+                <div class="borde nav2">BRAINTEC</div>
+
+                <div class="borde nav3" style="font-family:'Marvel', sans-serif;">
+                    <h1 style="font-family:'Marvel', sans-serif; font-size: 1em; float: left; color: white; padding-top: 15px;">
+                        #{menuController.mostrarUsuarioLogeado()}
+                    </h1>
+                    <p:menuButton value="Opciones"
+                                  style="font-family:'Marvel', sans-serif; padding-top: 7px; width: 80px; ">
+                        <p:menuitem value="Inicio" action="/protegido/principal?faces-redirect=true"
+                                    style="font-family:'Marvel', sans-serif;"/>
+                        <p:menuitem value="Configuración" style="font-family:'Marvel', sans-serif;"/>
+                        <p:menuitem actionListener="#{menuController.cerrarSesion()}" value="Cerrar Sesión"
+                                    action="/Login?faces-redirect=true" style="font-family:'Marvel', sans-serif;"/>
+                    </p:menuButton>
+                </div>
+            </h:form>
+
+        </nav>
+        <header>
+            <div class="caja1">
                 <ui:insert name="left">
                     <h:form>
-                        <p:menubar model="#{menuController.model}"/>
+                        <p:menubar model="#{menuController.model}"
+                                   style="font-family:'Marvel', sans-serif; background-color: rgb(0,153,204);"/>
                     </h:form>
                 </ui:insert>
             </div>
-            <div id="content" class="left_content">
-                <ui:insert name="content">Content</ui:insert>
-            </div>
-        </div>
-        <div id="bottom">
-            <ui:insert name="bottom">Bottom</ui:insert>
-        </div>
+            <div class="caja2">
+                <ui:insert name="content">
 
+                </ui:insert>
+            </div>
+
+        </header>
+        <footer class="borde">
+            <a>Copyright BraintecV3 &copy; 2020</a>
+        </footer>
     </h:body>
 
 </html>

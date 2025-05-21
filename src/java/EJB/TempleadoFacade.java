@@ -32,22 +32,23 @@ public class TempleadoFacade extends AbstractFacade<Templeado> implements Temple
     }
     
     @Override
-    public Templeado iniciarSesion(Templeado us){
+    public Templeado iniciarSesion(Templeado us) {
         Templeado templeado = null;
         String consulta;
-        try{
+        try {
             consulta = "FROM Templeado u WHERE u.usuarioempleado = ?1 and u.contrasenaempleado = ?2";
             Query query = em.createQuery(consulta);
             query.setParameter(1, us.getUsuarioempleado());
             query.setParameter(2, us.getContrasenaempleado());
             List<Templeado> lista = query.getResultList();
-            if (!lista.isEmpty()){
+            if (!lista.isEmpty()) {
                 templeado = lista.get(0);
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             throw e;
-            
         }
         return templeado;
-    }  
+    }
+
+
 }

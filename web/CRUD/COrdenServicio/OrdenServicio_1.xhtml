@@ -1,38 +1,39 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
-    <h:head>
-        <title>ORDENES DE PEDIDO</title>
-    </h:head>
-    <h:body>
-        <h:form id="Datos" >
-            <p:fieldset legend=" Datos" toggleable="true">
-                <p:dataTable value="#{ordenpedidombean.listaOrdenPedido}" var="u">
-                    <p:column headerText="Orden Pedido">
-                        <h:outputText value="#{u.idOpedido}" />
-                    </p:column>
-                    <p:column headerText="Fecha de Pedido">
-                        <h:outputText value="#{u.FPedido}">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns="http://www.w3.org/1999/xhtml">
+<h:head>
+    <title>ORDENES DE PEDIDO</title>
+</h:head>
+<h:body>
+    <h:form id="Datos">
+        <p:fieldset legend=" Datos" toggleable="true">
+            <p:dataTable value="#{ordenpedidombean.listaOrdenPedido}" var="u">
+                <p:column headerText="Orden Pedido">
+                    <h:outputText value="#{u.idOpedido}"/>
+                </p:column>
+                <p:column headerText="Fecha de Pedido">
+                    <h:outputText value="#{u.FPedido}">
                         <f:convertDateTime pattern="YY-MM-dd"/>
-                        </h:outputText>
-                    </p:column>
-                    <p:column headerText="Cantidad">
-                        <h:outputText value="#{u.cantidadP}" />
-                    </p:column>
-                    <p:column headerText="Repuesto">
-                        <h:outputText value="#{u.refRepuesto.nombreRepuesto}" />
-                    </p:column>
-                    <p:column headerText="Id Cliente">
-                        <h:outputText value="#{u.idCliente.idCliente}" />
-                    </p:column>
-                    <p:column headerText="Prioridad">
-                        <h:outputText value="#{u.idOrdenpag.idOrdenpag}" />
-                    </p:column>
-                </p:dataTable>             
-            </p:fieldset>
-        </h:form>
-    </h:body>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Cantidad">
+                    <h:outputText value="#{u.cantidadP}"/>
+                </p:column>
+                <p:column headerText="Repuesto">
+                    <h:outputText value="#{u.refRepuesto.nombreRepuesto}"/>
+                </p:column>
+                <p:column headerText="Id Cliente">
+                    <h:outputText value="#{u.idCliente.idCliente}"/>
+                </p:column>
+                <p:column headerText="Prioridad">
+                    <h:outputText value="#{u.idOrdenpag.idOrdenpag}"/>
+                </p:column>
+            </p:dataTable>
+        </p:fieldset>
+    </h:form>
+</h:body>
 </html>

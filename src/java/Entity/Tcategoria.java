@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+
 /**
  *
  * @author Julian Camilo
@@ -18,12 +19,21 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "tcategoria")
 public class Tcategoria implements Serializable{
-    
+
     @Id
     @Column(name = "idcategoria")
     private int idcategoria;
     @Column(name = "categoriarepuesto")
     private String categoriarepuesto;
+
+    public Tcategoria() {
+
+    }
+
+
+    public Tcategoria(Integer id) {
+        this.idcategoria = id;
+    }
 
     public int getIdcategoria() {
         return idcategoria;
@@ -44,7 +54,7 @@ public class Tcategoria implements Serializable{
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 37 * hash + this.idcategoria;
+        hash = 67 * hash + this.idcategoria;
         return hash;
     }
 
@@ -64,10 +74,5 @@ public class Tcategoria implements Serializable{
             return false;
         }
         return true;
-    }
-
-    @Override
-    public String toString() {
-        return "Tcategoria{" + "idcategoria=" + idcategoria + '}';
     }
 }

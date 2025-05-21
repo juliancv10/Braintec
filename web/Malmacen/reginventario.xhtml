@@ -1,0 +1,199 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+
+    <h:body>
+
+        <h:form>
+
+            <ui:composition template="./../WEB-INF/templates/plantilla.xhtml">
+
+                <ui:define name="content">
+                    <div>
+                        <h2 style="text-align: center">Productos Y Servicios</h2>
+                    </div>
+
+                    <p:growl id="msj" showDetail="true"/>
+
+
+
+                    <h:form id="botones" style="padding-top: 10px;">
+                        <p:panelGrid columns="2" >
+
+                            <p:commandButton value="Registrar Productos y Servicios" oncomplete="PF('valor').show();" style="background-color: deepskyblue; font-family:'Marvel', sans-serif; font-size: 1.2em;"/> 
+
+                            <p:commandButton value="Ingreso de Productos" oncomplete="PF('Edcan').show();" style="background-color: deepskyblue; font-family:'Marvel', sans-serif; font-size: 1.2em;"/> 
+
+                        </p:panelGrid>
+
+                    </h:form >
+
+                    <!--Nuevos Materiales-->
+                    <p:dialog widgetVar="valor" modal="true" showEffect="clip" header="Formulario de Registro" resizable="false" style="font-family:'Marvel', sans-serif; width:500px; font-size: 20px;">
+                        <p:ajax event="close" listener="#{mbeanTproserv.limpiar()}" update=":p"/>
+                        <h:form id="p">
+
+                            <p:panelGrid columns="2" style="font-family:'Marvel', sans-serif; width: 500px ;">
+
+                                <p:outputLabel value="Código Referencia" style="font-family:'Marvel', sans-serif;"/>
+                                <p:inputText value="#{mbeanTproserv.tproserv.codigo}" required="true" style="font-family:'Marvel', sans-serif;"/>
+
+                                <p:outputLabel value="Nombre" style="font-family:'Marvel', sans-serif;"/>
+                                <p:inputText value="#{mbeanTproserv.tproserv.nombre}" required="true" style="font-family:'Marvel', sans-serif;"/>
+
+                                <p:outputLabel value="Precio" style="font-family:'Marvel', sans-serif;"/>
+                                <p:inputText value="#{mbeanTproserv.tproserv.precio}" required="true" style="font-family:'Marvel', sans-serif;"/>
+
+                                <p:outputLabel value="Categoría" style="font-family:'Marvel', sans-serif;"/>
+                                <p:selectOneMenu value="#{mbeanTproserv.tcategoria.idcategoria}" style="font-family:'Marvel', sans-serif;">
+                                    <f:selectItems value="#{mbeanTcategoria.listaTcategoria}" var="c"
+                                                   itemValue="#{c.idcategoria}" itemLabel="#{c.categoriarepuesto}" />
+                                </p:selectOneMenu>
+                                
+                                
+                                <p:commandButton value="Guardar" actionListener="#{mbeanTproserv.guardar()}" oncomplete="PF('valor').hide();"
+                                                 rendered="#{mbeanTproserv.tproserv.codigo == null}"
+                                                 update=":Datos p :msj" style="font-family:'Marvel', sans-serif; background-color: deepskyblue;"/> 
+
+                            </p:panelGrid>
+                        </h:form>
+                    </p:dialog>
+
+                    <!--Editar Materiales-->
+                    <p:dialog widgetVar="Edrep" modal="true" showEffect="clip" header="Edicion de Materiales" resizable="false" style="font-family:'Marvel', sans-serif; width:500px; font-size: 20px;">
+
+                        <h:form id="e">
+
+                            <p:panelGrid columns="2" style="font-family:'Marvel', sans-serif; width: 500px ;">
+
+                                <p:outputLabel value="Código" style="font-family:'Marvel', sans-serif;"/>
+                                <p:outputLabel value="#{mbeanTproserv.tproserv.codigo}" style="font-family:'Marvel', sans-serif;"/>
+
+                                <p:outputLabel value="Nombre" style="font-family:'Marvel', sans-serif;"/>
+                                <p:inputText value="#{mbeanTproserv.tproserv.nombre}" style="font-family:'Marvel', sans-serif;"/>
+
+                                <p:outputLabel value="Cantidad Existente" style="font-family:'Marvel', sans-serif;"/>
+                                <p:outputLabel value="#{mbeanTproserv.tproserv.cantidad}"  style="font-family:'Marvel', sans-serif;"/>
+
+                                <p:outputLabel value="Precio" style="font-family:'Marvel', sans-serif;"/>
+                                <p:outputLabel value="#{mbeanTproserv.tproserv.precio}" style="font-family:'Marvel', sans-serif;">
+                                <f:convertNumber type="currency" currencySymbol="$" />
+                                </p:outputLabel>
+
+                                <p:outputLabel value="Estado" style="font-family:'Marvel', sans-serif;"/>
+                                <p:selectOneMenu id="rdbtrm" value="#{mbeanTproserv.tproserv.estado}" required="true" style="font-family:'Marvel', sans-serif;">
+                                    <f:selectItem itemValue="1" itemLabel="Activo"/>
+                                    <f:selectItem itemValue="0" itemLabel="Inactivo"/>
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="Categoría" style="font-family:'Marvel', sans-serif;"/>
+                                <p:outputLabel value="#{mbeanTproserv.tcategoria.idcategoria} #{mbeanTproserv.tcategoria.categoriarepuesto}" style="font-family:'Marvel', sans-serif;" />
+
+                                <p:commandButton value="Actualizar" actionListener="#{mbeanTproserv.actualizar()}" oncomplete="PF('Edrep').hide();"
+                                                 rendered="#{mbeanTproserv.tproserv.codigo != null}"
+                                                 update=":Datos e :msj" style="font-family:'Marvel', sans-serif; background-color: deepskyblue;"/> 
+
+                            </p:panelGrid>
+                        </h:form>
+                    </p:dialog>
+
+                    <!--Editar Ingresos-->
+                    <p:dialog widgetVar="Edcan" modal="true" showEffect="clip" header="Ingreso de Materiales" resizable="false" style="font-family:'Marvel', sans-serif; width:500px; font-size: 20px;">
+
+                        <h:form id="ca">
+
+                            <p:panelGrid columns="2" style="font-family:'Marvel', sans-serif; ">
+
+                                <p:outputLabel value="Seleccione Producto" style="font-family:'Marvel', sans-serif;"/>
+                                <p:selectOneMenu value="#{mbeanTproserv.idProducto}" style="font-family:'Marvel', sans-serif;" filter="true" filterMatchMode="contains">
+                                    <f:selectItems value="#{mbeanTproserv.listaTproserv}" var="re"
+                                                   itemValue="#{re.idps}" itemLabel="#{re.idps} #{re.nombre}" />
+                                </p:selectOneMenu>
+
+                                
+                                <p:outputLabel value="Ingrese la Cantidad" style="font-family:'Marvel', sans-serif;"/>
+                                <p:inputText value="#{mbeanTproserv.cantidad}"  style="font-family:'Marvel', sans-serif;"/>
+
+                                <p:commandButton value="Ingresar" actionListener="#{mbeanTproserv.ingresoAlma()}" oncomplete="PF('Edcan').hide();"
+
+                                                 update=":Datos ca :msj" style="font-family:'Marvel', sans-serif; background-color: deepskyblue;"/> 
+
+                            </p:panelGrid>
+                        </h:form>
+                    </p:dialog>
+
+                    <style type="text/css">
+                        .ui-paginator a {
+                            margin-right: 5px;
+                        }
+                    </style>
+                    <h:form id="Datos">
+                        <p:dataTable value="#{mbeanTproserv.listaTproserv}" var="r" 
+                                     paginator="true" paginatorPosition="bottom" rows="8" 
+                                     widgetVar="tablarep" emptyMessage="No se encuentra el dato consultado"
+                                     style="margin-bottom:20px; font-family:'Marvel', sans-serif; text-align: center;">
+
+                            <f:facet name="header">
+                                <p:outputPanel style="height: 25px" >
+                                    <h:outputText value="Productos y Servicios Registrados" style="font-family:'Marvel', sans-serif;" />
+
+                                </p:outputPanel>
+                            </f:facet>
+
+                            <p:column headerText="Código Referencia" filterBy="#{r.codigo}" filterMatchMode="contains">
+                                <h:outputText value="#{r.codigo}" />
+                            </p:column>
+                            <p:column headerText="Nombre" filterBy="#{r.nombre}" filterMatchMode="contains">
+                                <h:outputText value="#{r.nombre}" />
+                            </p:column>
+                            <p:column headerText="Cantidad Existente" >
+                                <h:outputText value="#{r.cantidad} Unidades" />
+                            </p:column>
+                            <p:column headerText="Precio"  >
+                                <h:outputText value="#{r.precio}" >
+                                    <f:convertNumber type="currency" currencySymbol="$" />
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="Estado"  >
+                                <h:outputText value="#{r.estado}" />
+                            </p:column>
+                            <p:column headerText="Categoría">
+                                <h:outputText value="#{r.tcategoria.categoriarepuesto}" />
+                            </p:column>
+
+                            <!--<p:column headerText="Eliminar" style="text-align: center;" >
+                                <p:commandButton value="Eliminar" actionListener="#{mbeanTproserv.eliminar(r)}" style="font-family:'Marvel', sans-serif;"
+                                                 update=":Datos :msj" />
+                            </p:column>-->
+
+                            <p:column headerText="Acciones" style="text-align: center;" exportable="false" >
+                                <p:commandButton value="Editar" actionListener="#{mbeanTproserv.editardatos(r)}" style="font-family:'Marvel', sans-serif; background-color: deepskyblue;"
+                                                 update=":e" oncomplete="PF('Edrep').show();"/>
+                            </p:column>
+                        </p:dataTable>             
+
+                        <h:commandLink value="Exportar a Pdf">
+                            <h:graphicImage url="../resources/img/icono-pdf.png" style="width: 23px; height: 23px; text-align: right;" />
+                            <p:dataExporter type="pdf" target="tablarep" fileName="PdfInventario"/> 
+                        </h:commandLink>
+                        <h:commandLink value="Exportar a Excel">
+                            <h:graphicImage url="../resources/img/icono excel.png" style="width: 25px; height: 25px; text-align: right;"/>
+                            <p:dataExporter type="xls" target="tablarep" fileName="XlsInventario"/> 
+                        </h:commandLink>
+                        
+                    </h:form>  
+
+                </ui:define>
+
+            </ui:composition>
+        </h:form>
+    </h:body>
+</html>
